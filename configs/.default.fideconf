@@ -3,9 +3,9 @@
 21Schafkopfauswerter
 21Base
 21Export
-22PdfExport
-22GraphExport
-22StatisticsExport
+12PdfExport
+21GraphExport
+21StatisticsExport
 12HtmlExport
 12Import
 12Statistics
