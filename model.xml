@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+	<featureModel chosenLayoutAlgorithm="1">
+		<struct>
+			<and abstract="true" mandatory="true" name="Schafkopfauswerter">
+				<feature mandatory="true" name="Base"/>
+				<and abstract="true" name="Export">
+					<and name="PdfExport">
+						<feature name="GraphExport"/>
+						<feature name="StatisticsExport"/>
+					</and>
+					<feature name="HtmlExport"/>
+				</and>
+				<feature name="Import"/>
+				<feature name="Statistics"/>
+				<and name="Graph">
+					<feature name="ImportedGraph"/>
+				</and>
+				<feature name="Stock"/>
+				<and name="ShowDealer">
+					<feature name="RemoveLastDealer"/>
+				</and>
+				<feature name="RemoveLastGame"/>
+			</and>
+		</struct>
+		<constraints>
+			<rule>
+				<imp>
+					<conj>
+						<var>ShowDealer</var>
+						<var>RemoveLastGame</var>
+					</conj>
+					<var>RemoveLastDealer</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
+						<var>PdfExport</var>
+						<var>Graph</var>
+					</conj>
+					<var>GraphExport</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
+						<var>PdfExport</var>
+						<var>Statistics</var>
+					</conj>
+					<var>StatisticsExport</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
+						<var>Import</var>
+						<var>Graph</var>
+					</conj>
+					<var>ImportedGraph</var>
+				</imp>
+			</rule>
+		</constraints>
+		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
+		<comments/>
+		<featureOrder userDefined="false"/>
+	</featureModel>
