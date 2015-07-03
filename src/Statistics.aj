@@ -1,4 +1,4 @@
-
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -14,7 +14,10 @@ public privileged aspect Statistics {
      */
     after() returning(GUI gui): call(GUI.new(*)) {
         gui.tabbedPane.addTab("Statistik", null, statsPanel, null);
+        
+        statsPanel.setLayout(new GridLayout(0, 1));
         statsPanel.add(tabbedPane);
+        
         StatisticsHelper.StatisticsPaneCreated(tabbedPane);
     }
 }

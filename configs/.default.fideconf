@@ -2,13 +2,16 @@
 # 0 = deselected, 1 = selected, 2 = undefined
 21Schafkopfauswerter
 21Base
-21Export
-12PdfExport
-21GraphExport
-21StatisticsExport
+11Export
+11PdfExport
+11GraphExport
+11StatisticsExport
 12HtmlExport
 12Import
-12Statistics
+11Statistics
+11OverallStats
+12StatOverallTxt
+12StatOverallGraphical
 12Graph
 21ImportedGraph
 12Stock

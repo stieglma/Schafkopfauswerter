@@ -1,3 +1,6 @@
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
@@ -10,7 +13,8 @@ import model.db.DataObject;
 public privileged aspect StatOverallTxt {
 	
 	private static GUI gui;
-	private JTextArea statText = new JTextArea();
+	private static JPanel panel = new JPanel();
+	private static JTextArea statText = new JTextArea();
 	
     after() returning(GUI gui): call(GUI.new(*)) {
 		StatOverallTxt.gui = gui;
@@ -20,14 +24,16 @@ public privileged aspect StatOverallTxt {
 			execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
 			&& args(tabbedPane) {
 		statText.setEditable(false);
-		((JTabbedPane) tabbedPane).addTab("OverallText", statText);
+        panel.setLayout(new GridLayout(0, 1));
+		panel.add(statText);
+		((JTabbedPane) tabbedPane).addTab("OverallText", panel);
 	}
 	
     after() : execution(* UIUpdater.run()) {
-        statText.setText(gui.model.getGameData().getOverallStatistics());
+        statText.setText(gui.model.getGameData().getOverallStatisticsString());
     }
     
-    public String GameData.getOverallStatistics() {
+    public String GameData.getOverallStatisticsString() {
         int anzahlSpieleGesamt = 0;
         int anzahlSpieleGesamtGewonnen = 0;
         int teuerstesRufspiel = 0;

@@ -12,7 +12,10 @@
 				</and>
 				<feature name="Import"/>
 				<and name="Statistics">
-					<feature name="StatOverallTxt"/>
+					<and abstract="true" name="OverallStats">
+						<feature name="StatOverallTxt"/>
+						<feature name="StatOverallGraphical"/>
+					</and>
 				</and>
 				<and name="Graph">
 					<feature name="ImportedGraph"/>
