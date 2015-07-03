@@ -105,19 +105,19 @@ public privileged aspect StatOverallTxt {
        
 		return "#Spiele (ohne weiter): " + anzahlSpieleGesamt + " (gewonnen: "
 				+ (anzahlSpieleGesamt > 0 ? anzahlSpieleGesamtGewonnen
-						/ ((double) anzahlSpieleGesamt) : 0) + "%)\n"
+						/ ((double) anzahlSpieleGesamt) : 0) * 100 + "%)\n"
 				+ "#Rufspiele: " + anzahlRufspiele + " (gewonnen: "
 				+ (anzahlRufspiele > 0 ? anzahlGewonneneRufspiele
-						/ ((double) anzahlRufspiele) : 0) + "%)\n"
+						/ ((double) anzahlRufspiele) : 0) * 100 + "%)\n"
 				+ "          -> teurstes Rufspiel: " + teuerstesRufspiel + "\n"
 				+ "#Soli gesamt: " + (anzahlSolo + anzahlSoloTout + anzahlSoloSie)
-				+ " (gewonnen: " + sologesamtwin + "%)\n"
+				+ " (gewonnen: " + sologesamtwin * 100 + "%)\n"
 				+ "#Soli normal: " + anzahlSolo	+ " (gewonnen: "
-				+ (anzahlSolo > 0 ? anzahlGewonneneSoli / ((double) anzahlSolo)	: 0) + "%)\n"
+				+ (anzahlSolo > 0 ? anzahlGewonneneSoli / ((double) anzahlSolo)	: 0) * 100 + "%)\n"
 				+ "            -> teurstes Solo: " + teuerstesSolo + "\n"
 				+ "#Solo Tout: " + anzahlSoloTout + " (gewonnen: "
 				+ (anzahlSoloTout > 0 ? anzahlGewonneneSoliTout
-						/ ((double) anzahlSoloTout) : 0) + "%)\n"
+						/ ((double) anzahlSoloTout) : 0) * 100 + "%)\n"
 				+ "          -> teurstes Solo Tout: " + teuerstesSoloTout + "\n"
 				+ "#Solo Sie: " + anzahlSoloSie + "\n"
 				+ "         -> teurstes Solo Sie: " + teuerstesSoloSie + "\n"
