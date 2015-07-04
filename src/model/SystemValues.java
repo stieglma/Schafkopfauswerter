@@ -7,6 +7,7 @@ public final class SystemValues {
     public static int solo = 50;
 
     public static enum Games {
+        NONE("/"),
         WEITER("Weiter"),
         RUFSPIEL("Rufspiel"),
         SOLO("Solo"),
@@ -68,6 +69,7 @@ public final class SystemValues {
         NOONE, PLAYER, ENEMY;
 
         public static WIN getEnumFromString(String str) {
+            System.out.println(str);
             if (str.equals(ENEMY.toString())) {
                 return ENEMY;
             } else if (str.equals(PLAYER.toString())) {
@@ -77,6 +79,19 @@ public final class SystemValues {
             } else {
                 throw new IllegalArgumentException();
             }
+        }
+
+        public String toString() {
+            switch (this) {
+            case ENEMY:
+                return "nein";
+            case NOONE:
+                return "keiner";
+            case PLAYER:
+                return "ja";
+            }
+            // does never happen
+            throw new AssertionError();
         }
     }
 }

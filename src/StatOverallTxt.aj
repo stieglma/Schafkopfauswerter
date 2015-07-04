@@ -95,6 +95,10 @@ public privileged aspect StatOverallTxt {
             case WEITER:
                 anzahlWeiter++;
                 break;
+            case NONE: // nothing to do here
+                break;
+            default: // here neither
+                break;
             }
         }
 

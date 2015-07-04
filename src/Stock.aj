@@ -118,13 +118,13 @@ public privileged aspect Stock {
     }
 
     int around() : execution (* SchafkopfTableModel.getColumnCount()) {
-        return 9;
+        return proceed() + 1;
     }
 
     Object around(int rowIndex, int columnIndex)
     : execution (* SchafkopfTableModel.getValueAt(int, int))
     && args(rowIndex, columnIndex) {
-        if (columnIndex < 8) {
+        if (columnIndex < 9) {
             return proceed(rowIndex, columnIndex);
         } else {
             return gui.model.gameDB.data.get(gui.model.gameDB.size() - rowIndex - 1).getStock();
@@ -134,7 +134,7 @@ public privileged aspect Stock {
     Object around(int index)
     : execution (* SchafkopfTableModel.getColumnName(int))
     && args(index) {
-        if (index < 8) {
+        if (index < 9) {
             return proceed(index);
         } else {
             return "Stock";

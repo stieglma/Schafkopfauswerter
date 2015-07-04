@@ -21,7 +21,7 @@ public class SchafkopfTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 8;
+        return 9;
     }
 
     @Override
@@ -38,6 +38,7 @@ public class SchafkopfTableModel extends AbstractTableModel {
         case 5: return data.get(data.size() - rowIndex - 1).getValP2();
         case 6: return data.get(data.size() - rowIndex - 1).getValP3();
         case 7: return data.get(data.size() - rowIndex - 1).getValP4();
+        case 8: return data.get(data.size() - rowIndex - 1).getGameWon();
         default: return null;
         }
     }
@@ -53,6 +54,7 @@ public class SchafkopfTableModel extends AbstractTableModel {
         case 5: return SystemValues.Players.PLAYER_2.toString();
         case 6: return SystemValues.Players.PLAYER_3.toString();
         case 7: return SystemValues.Players.PLAYER_4.toString();
+        case 8: return "Gewonnen";
         default: return null;
         }
     }

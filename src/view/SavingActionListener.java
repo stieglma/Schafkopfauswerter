@@ -26,7 +26,7 @@ public class SavingActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        Games game = Games.values()[parentPopup.spielComboBox.getSelectedIndex()];
+        Games game = Games.values()[parentPopup.spielComboBox.getSelectedIndex()+1]; // we need to exclude Games.NOONE here
         if (game == Games.WEITER) {
             model.addWeiter();
             parent.updateValues();

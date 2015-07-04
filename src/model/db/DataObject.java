@@ -33,20 +33,22 @@ public class DataObject {
         player = values[1];
         
         String str = values[2];
-        if (str.equals(Games.RUFSPIEL)) {
+        if (str.equals(Games.RUFSPIEL.toString())) {
             game = Games.RUFSPIEL;
-        } else if (str.equals(Games.SIE)) {
+        } else if (str.equals(Games.SIE.toString())) {
             game = Games.SIE;
-        } else if (str.equals(Games.TOUT)) {
+        } else if (str.equals(Games.TOUT.toString())) {
             game = Games.TOUT;
-        } else if (str.equals(Games.SOLO)) {
+        } else if (str.equals(Games.SOLO.toString())) {
             game = Games.SOLO;
-        } else if (str.equals(Games.WEITER)) {
+        } else if (str.equals(Games.WEITER.toString())) {
             game = Games.WEITER;
+        } else if (str.equals(Games.NONE.toString())) {
+            game = Games.NONE;
         } else {
             throw new IllegalArgumentException();
         }
-        
+
         gameVal = Integer.parseInt(values[3]);
         valP1 = Integer.parseInt(values[4]);
         valP2 = Integer.parseInt(values[5]);
@@ -67,7 +69,8 @@ public class DataObject {
                              Integer.toString(valP1),
                              Integer.toString(valP2),
                              Integer.toString(valP3),
-                             Integer.toString(valP4)};
+                             Integer.toString(valP4),
+                             won.toString()};
     }
 
     public String getPlayer() {
