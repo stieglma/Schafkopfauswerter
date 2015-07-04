@@ -50,6 +50,9 @@ public privileged aspect PdfExport {
         return rows;
     }
 
+    /**
+     * Add pdf report feature to menu bar
+     */
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
         JMenuItem itemExportPdf = new JMenuItem("Generiere PDF Report");
         itemExportPdf.addActionListener(new PDFReportListener());
@@ -62,6 +65,10 @@ public privileged aspect PdfExport {
         }
     }
 
+    /**
+     * generate pdf report (execution of PDFReportListener is suppressed, this
+     * is just an empty method, to be able to create this pointcut
+     */
     void around(PDDocument document) throws IOException
           : execution (* PDFReportListener.drawTable(PDDocument)) 
           && args(document) {

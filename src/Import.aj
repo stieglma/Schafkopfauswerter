@@ -62,6 +62,9 @@ privileged aspect Import {
         gui.updateValues();
     }
 
+    /**
+     * Add import feature to the menubar
+     */
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
         JMenuItem itemLoad = new JMenuItem("Spielstand laden");
         itemLoad.addActionListener(new LoadFileListener());
@@ -74,6 +77,10 @@ privileged aspect Import {
         }
     }
 
+    /**
+     * pointcut for the LoadFileListener, this is necessary to be able to change
+     * the gameDB object (c.f. importFromHtmlTable).
+     */
     after() : execution(* LoadFileListener.actionPerformed(*)) {
         JFileChooser chooser = new JFileChooser();
         if (chooser.showOpenDialog(gui) == JFileChooser.APPROVE_OPTION) {

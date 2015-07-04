@@ -54,6 +54,9 @@ privileged aspect HtmlExport {
        return builder.toString();
     }
 
+    /**
+     * Add the save file feature to the menu bar
+     */
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
         JMenuItem itemSave = new JMenuItem("Spielstand speichern");
         itemSave.addActionListener(new ExportActionListener(gui));
@@ -66,6 +69,9 @@ privileged aspect HtmlExport {
         }
     }
 
+    /**
+     * set the htmltable value of the export action listener
+     */
     before() : execution(* ExportActionListener.actionPerformed(*)) {
         ExportActionListener.htmlTable = ((SchafkopfTableModel) gui.table.getModel()).asHtmlTable();
     }

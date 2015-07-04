@@ -34,6 +34,9 @@ public privileged aspect Graph {
         gui.tabbedPane.add(tabGraph, "Grafik", 2);
     }
 
+    /**
+     * Set the values for the lines of the graph
+     */
     static void setPlayersGraphs() {
         DataTable[] tmp = gui.model.getGameData().getTables();
         playersGraphs[0] = new DataSeries(PLAYER_1.toString(), tmp[0], 0, 1);
@@ -42,6 +45,9 @@ public privileged aspect Graph {
         playersGraphs[3] = new DataSeries(PLAYER_4.toString(), tmp[3], 0, 1);
     }
 
+    /**
+     * when the ui update is running, we want to update the names in the graphs
+     */
     after() : execution(* UIUpdater.run()) {
         playersGraphs[0].setName(PLAYER_1.toString());
         playersGraphs[1].setName(PLAYER_2.toString());
