@@ -59,6 +59,7 @@ privileged aspect Import {
         }
         gui.model.gameDB = newData;
         gui.table.setModel(new SchafkopfTableModel(gui.model.getGameData()));
+        gui.updateValues();
     }
 
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
