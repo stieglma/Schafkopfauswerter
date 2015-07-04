@@ -60,7 +60,7 @@ privileged aspect HtmlExport {
 
         Component[] menus = bar.getComponents();
         if (menus.length != 0 && menus[0] instanceof JMenu) {
-            ((JMenu)bar.getComponents()[0]).add(itemSave);
+            ((JMenu)bar.getComponents()[0]).add(itemSave, 0);
         } else {
             throw new AssertionError("There should be a menu entry!");
         }

@@ -18,7 +18,7 @@ import view.SchafkopfTableModel;
 
 public privileged aspect PdfExport {
 
-    declare precedence : PdfExport, HtmlExport, Import; 
+    declare precedence : Import, HtmlExport, PdfExport; 
     private GUI gui;
 
     /**
@@ -56,7 +56,7 @@ public privileged aspect PdfExport {
 
         Component[] menus = bar.getComponents();
         if (menus.length != 0 && menus[0] instanceof JMenu) {
-            ((JMenu)bar.getComponents()[0]).add(itemExportPdf);
+            ((JMenu)bar.getComponents()[0]).add(itemExportPdf, 0);
         } else {
             throw new AssertionError("There should be a menu entry!");
         }
