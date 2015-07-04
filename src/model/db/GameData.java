@@ -25,11 +25,11 @@ public class GameData {
     }
 
     public void addData(DataObject obj) {
+        p1.add(data.size(), obj.getValP1());
+        p2.add(data.size(), obj.getValP2());
+        p3.add(data.size(), obj.getValP3());
+        p4.add(data.size(), obj.getValP4());
         data.add(obj);
-        p1.add(data.size() + 1, obj.getValP1());
-        p2.add(data.size() + 1, obj.getValP2());
-        p3.add(data.size() + 1, obj.getValP3());
-        p4.add(data.size() + 1, obj.getValP4());
     }
 
     public DataTable[] getTables() {
