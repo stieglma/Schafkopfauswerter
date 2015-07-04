@@ -23,6 +23,7 @@
 				<feature name="Stock"/>
 				<and name="ShowDealer">
 					<feature name="RemoveLastDealer"/>
+					<feature name="ImportDealer"/>
 				</and>
 				<feature name="RemoveLastGame"/>
 			</and>
@@ -62,6 +63,15 @@
 						<var>Graph</var>
 					</conj>
 					<var>ImportedGraph</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
+						<var>Import</var>
+						<var>ShowDealer</var>
+					</conj>
+					<var>ImportDealer</var>
 				</imp>
 			</rule>
 		</constraints>
