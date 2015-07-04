@@ -11,12 +11,16 @@
 					<feature mandatory="true" name="HtmlExport"/>
 				</or>
 				<feature name="Import"/>
-				<and name="Statistics">
-					<and abstract="true" name="OverallStats">
-						<feature name="StatOverallTxt"/>
-						<feature name="StatOverallGraphical"/>
-					</and>
-				</and>
+				<or name="Statistics">
+					<or abstract="true" mandatory="true" name="OverallStats">
+						<feature mandatory="true" name="StatOverallTxt"/>
+						<feature mandatory="true" name="StatOverallGraph"/>
+					</or>
+					<or abstract="true" mandatory="true" name="PlayerWiseStats">
+						<feature mandatory="true" name="StatPlayerWiseTxt"/>
+						<feature mandatory="true" name="StatPlayerWiseGraph"/>
+					</or>
+				</or>
 				<and name="Graph">
 					<feature name="ImportedGraph"/>
 				</and>

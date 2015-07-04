@@ -7,6 +7,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import model.Schafkopfmodel;
+import model.SystemValues.Games;
 import model.SystemValues.Players;
 import model.SystemValues.WIN;
 import static model.SystemValues.rufspiel;
@@ -63,7 +64,7 @@ public privileged aspect Stock {
     void around() : call (* Schafkopfmodel.addWeiter()) {
         DataObject obj = gui.model.gameDB.getLast().copyOf();
         obj.player = "/";
-        obj.game = "weiter";
+        obj.game = Games.WEITER;
         obj.won = WIN.NOONE;
         obj.gameVal = 0;
 
@@ -110,7 +111,7 @@ public privileged aspect Stock {
 
         WIN win = won ? WIN.PLAYER : WIN.ENEMY;
 
-        DataObject newObj = new DataObject(one.toString(), "Rufspiel", price,
+        DataObject newObj = new DataObject(one.toString(), Games.RUFSPIEL, price,
                 playerVals[0], playerVals[1], playerVals[2], playerVals[3], win);
         newObj.stock = stock;
         gui.model.gameDB.addData(newObj);

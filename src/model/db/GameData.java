@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import de.erichseifert.gral.data.DataTable;
+import model.SystemValues.Games;
 import model.SystemValues.WIN;
 
 
@@ -17,7 +18,7 @@ public class GameData {
     private DataTable p4 = new DataTable(2, Integer.class);
 
     public GameData() {
-        data.add(new DataObject("/", "/", 0, 0, 0, 0, 0, WIN.NOONE));
+        data.add(new DataObject("/", Games.WEITER, 0, 0, 0, 0, 0, WIN.NOONE));
         p1.add(0, 0);
         p2.add(0, 0);
         p3.add(0, 0);

@@ -7,7 +7,25 @@ public final class SystemValues {
     public static int solo = 50;
 
     public static enum Games {
-        WEITER, RUFSPIEL, SOLO, TOUT, SIE;
+        WEITER("Weiter"),
+        RUFSPIEL("Rufspiel"),
+        SOLO("Solo"),
+        TOUT("Solo Tout"),
+        SIE("Solo Sie");
+        
+        private String name;
+        
+        private Games(String name) {
+            this.name = name;
+        }
+        
+        public String getName() {
+            return this.name;
+        }
+        
+        public String toString() {
+            return this.name;
+        }
     }
 
     public static enum Spritzen {
@@ -28,7 +46,7 @@ public final class SystemValues {
         private String name;
         private int number;
 
-        Players(String str, int num) {
+        private Players(String str, int num) {
             name = str;
             number = num;
         }

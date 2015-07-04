@@ -1,12 +1,14 @@
 package model.db;
 
 import model.SystemValues;
+import model.SystemValues.Games;
+import model.SystemValues.Players;
 import model.SystemValues.WIN;
 
 public class DataObject {
 
     private String player;
-    private String game;
+    private Games game;
     private int gameVal;
     private int valP1;
     private int valP2;
@@ -14,7 +16,7 @@ public class DataObject {
     private int valP4;
     private WIN won;
 
-    public DataObject(String player, String game, int gameVal, int valP1,
+    public DataObject(String player, Games game, int gameVal, int valP1,
             int valP2, int valP3, int valP4, WIN noone) {
 
         this.player = player;
@@ -29,7 +31,22 @@ public class DataObject {
 
     public DataObject(String[] values) {
         player = values[1];
-        game = values[2];
+        
+        String str = values[2];
+        if (str.equals(Games.RUFSPIEL)) {
+            game = Games.RUFSPIEL;
+        } else if (str.equals(Games.SIE)) {
+            game = Games.SIE;
+        } else if (str.equals(Games.TOUT)) {
+            game = Games.TOUT;
+        } else if (str.equals(Games.SOLO)) {
+            game = Games.SOLO;
+        } else if (str.equals(Games.WEITER)) {
+            game = Games.WEITER;
+        } else {
+            throw new IllegalArgumentException();
+        }
+        
         gameVal = Integer.parseInt(values[3]);
         valP1 = Integer.parseInt(values[4]);
         valP2 = Integer.parseInt(values[5]);
@@ -45,7 +62,7 @@ public class DataObject {
     public String[] asTextArray(int index) {
         return new String[] {Integer.toString(index),
                              player,
-                             game,
+                             game.toString(),
                              Integer.toString(gameVal),
                              Integer.toString(valP1),
                              Integer.toString(valP2),
@@ -57,7 +74,7 @@ public class DataObject {
         return player;
     }
 
-    public String getGameKind() {
+    public Games getGameKind() {
         return game;
     }
 
@@ -79,6 +96,18 @@ public class DataObject {
 
     public int getValP4() {
         return valP4;
+    }
+    
+    public int getPlayerVal(Players player) {
+        if (player == Players.PLAYER_1) {
+            return valP1;
+        } else if (player == Players.PLAYER_2) {
+            return valP2;
+        } else if (player == Players.PLAYER_3) {
+            return valP3;
+        } else {
+            return valP4;
+        }
     }
 
     public WIN getGameWon() {

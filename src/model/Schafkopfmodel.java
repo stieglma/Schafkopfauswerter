@@ -1,6 +1,7 @@
 package model;
 
 import model.SystemValues;
+import model.SystemValues.Games;
 import model.SystemValues.Players;
 import model.SystemValues.Schneider;
 import model.SystemValues.Spritzen;
@@ -27,10 +28,12 @@ public class Schafkopfmodel {
         addRufspielHelp(price, one, two, won);
     }
 
-    private void addRufspielHelp(int price, Players one, Players two, boolean won) {
+    private void addRufspielHelp(int price, Players one, Players two,
+            boolean won) {
 
         DataObject obj = gameDB.getLast();
-        int[] playerVals = {obj.getValP1(), obj.getValP2(), obj.getValP3(), obj.getValP4()};
+        int[] playerVals = { obj.getValP1(), obj.getValP2(), obj.getValP3(),
+                obj.getValP4() };
 
         if (!won) {
             price *= -1;
@@ -46,7 +49,7 @@ public class Schafkopfmodel {
 
         WIN win = won ? WIN.PLAYER : WIN.ENEMY;
 
-        gameDB.addData(new DataObject(one.toString(), "Rufspiel", price,
+        gameDB.addData(new DataObject(one.toString(), Games.RUFSPIEL, price,
                 playerVals[0], playerVals[1], playerVals[2], playerVals[3], win));
     }
 
@@ -58,7 +61,7 @@ public class Schafkopfmodel {
                 * SystemValues.schneider) * Math.pow(2,
                 (spritze.ordinal() + gedoppelt)));
 
-        addSoloHelp(price, one, won, "Solo");
+        addSoloHelp(price, one, won, Games.SOLO);
     }
 
     public void addSoloTout(Players one, boolean won, int laufende,
@@ -68,12 +71,13 @@ public class Schafkopfmodel {
                 * SystemValues.schneider) * Math.pow(2, (spritze.ordinal()
                 + gedoppelt + 1)));
 
-        addSoloHelp(price, one, won, "Solo Tout");
+        addSoloHelp(price, one, won, Games.TOUT);
     }
 
-    private void addSoloHelp(int price, Players one, boolean won, String gameName) {
+    private void addSoloHelp(int price, Players one, boolean won, Games game) {
         DataObject obj = gameDB.getLast();
-        int[] playerVals = {obj.getValP1(), obj.getValP2(), obj.getValP3(), obj.getValP4()};
+        int[] playerVals = { obj.getValP1(), obj.getValP2(), obj.getValP3(),
+                obj.getValP4() };
 
         if (!won) {
             price *= -1;
@@ -81,7 +85,7 @@ public class Schafkopfmodel {
 
         for (int i = 0; i < playerVals.length; i++) {
             if (i == one.getNumber()) {
-                playerVals[i] += price*3;
+                playerVals[i] += price * 3;
             } else {
                 playerVals[i] -= price;
             }
@@ -89,16 +93,17 @@ public class Schafkopfmodel {
 
         WIN win = won ? WIN.PLAYER : WIN.ENEMY;
 
-        gameDB.addData(new DataObject(one.toString(), gameName, price,
+        gameDB.addData(new DataObject(one.toString(), game, price,
                 playerVals[0], playerVals[1], playerVals[2], playerVals[3], win));
     }
 
-    public void addSoloSie(Players one,  int gedoppelt) {
+    public void addSoloSie(Players one, int gedoppelt) {
         addSoloTout(one, true, 8, SystemValues.Spritzen.NORMAL, gedoppelt);
     }
 
     public void addWeiter() {
         DataObject obj = gameDB.getLast();
-        gameDB.addData(new DataObject("/", "weiter", 0, obj.getValP1(), obj.getValP2(), obj.getValP3(), obj.getValP4(), WIN.NOONE));
+        gameDB.addData(new DataObject("/", Games.WEITER, 0, obj.getValP1(), obj
+                .getValP2(), obj.getValP3(), obj.getValP4(), WIN.NOONE));
     }
 }

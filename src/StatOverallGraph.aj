@@ -23,24 +23,28 @@ import view.GUI;
 import view.UIUpdater;
 import model.db.GameData;
 
-public privileged aspect StatOverallGraphical {
+public privileged aspect StatOverallGraph {
+    declare precedence : StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
     private static JPanel panel = new JPanel();
 
     private static final Color COLOR1 = Color.GREEN;
 
-    private static DataTable playedTypes = new DataTable(Integer.class, String.class);
-    private static DataTable mostExpsvGame = new DataTable(Integer.class, Integer.class, String.class);
-    private static DataTable wonGames = new DataTable(Integer.class, Double.class, String.class);
+    private static DataTable playedTypes = new DataTable(Integer.class,
+            String.class);
+    private static DataTable mostExpsvGame = new DataTable(Integer.class,
+            Integer.class, String.class);
+    private static DataTable wonGames = new DataTable(Integer.class,
+            Double.class, String.class);
 
     after() returning(GUI gui): call(GUI.new(*)) {
-        StatOverallGraphical.gui = gui;
+        StatOverallGraph.gui = gui;
     }
 
     after(JTabbedPane tabbedPane): 
-        execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
-        && args(tabbedPane) {
+			execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
+			&& args(tabbedPane) {
         panel.setLayout(new GridLayout(2, 2));
 
         updateData();
@@ -98,7 +102,7 @@ public privileged aspect StatOverallGraphical {
             wonGames.removeLast();
         }
         wonGames.add(1, gesamt, "Gesamt");
-        wonGames.add(2, rufspiele, "Rufspiele");
+        wonGames.add(2, rufspiele, "R.Rufspiele");
         wonGames.add(3, soli_gesamt, "Soli gesamt");
         wonGames.add(4, soli_normal, "Soli normal");
         wonGames.add(5, soli_tout, "Soli Tout");
@@ -216,7 +220,7 @@ public privileged aspect StatOverallGraphical {
 
         for (DataObject obj : data) {
             switch (obj.getGameKind()) {
-            case "Rufspiel":
+            case RUFSPIEL:
                 anzahlRufspiele++;
                 anzahlSpieleGesamt++;
                 if (obj.getGameWon() == WIN.PLAYER) {
@@ -227,7 +231,7 @@ public privileged aspect StatOverallGraphical {
                     teuerstesRufspiel = obj.getGameValue();
                 }
                 break;
-            case "Solo":
+            case SOLO:
                 anzahlSolo++;
                 anzahlSpieleGesamt++;
                 if (obj.getGameWon() == WIN.PLAYER) {
@@ -238,7 +242,7 @@ public privileged aspect StatOverallGraphical {
                     teuerstesSolo = obj.getGameValue();
                 }
                 break;
-            case "Solo Tout":
+            case TOUT:
                 anzahlSpieleGesamt++;
                 if (obj.getGameWon() == WIN.PLAYER) {
                     anzahlGewonneneSoliTout++;
@@ -249,7 +253,7 @@ public privileged aspect StatOverallGraphical {
                 }
                 anzahlSoloTout++;
                 break;
-            case "Solo Sie":
+            case SIE:
                 anzahlSpieleGesamt++;
                 anzahlSpieleGesamtGewonnen++;
                 anzahlSoloSie++;
@@ -257,7 +261,7 @@ public privileged aspect StatOverallGraphical {
                     teuerstesSoloSie = obj.getGameValue();
                 }
                 break;
-            case "weiter":
+            case WEITER:
                 anzahlWeiter++;
                 break;
             }
