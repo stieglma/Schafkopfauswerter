@@ -1,4 +1,4 @@
 bin/
 .settings/
 .classpath
-.config/.default.fideconf
+configs/.default.fideconf
