@@ -106,7 +106,7 @@ public privileged aspect StatPlayerWiseTxt {
                             + System.lineSeparator());
 
             for (Games game : Games.values()) {
-                if (game != Games.WEITER) {
+                if (game != Games.WEITER && game != Games.NONE) {
                     int i = game.ordinal();
                     result.append(
                             "\t- " + game.toString() + ": "
