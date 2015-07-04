@@ -2,13 +2,8 @@ import java.awt.Color;
 
 import de.erichseifert.gral.data.DataSeries;
 import de.erichseifert.gral.data.DataTable;
-import de.erichseifert.gral.plots.Plot;
 import de.erichseifert.gral.plots.XYPlot;
-import de.erichseifert.gral.plots.axes.AxisRenderer;
-import de.erichseifert.gral.plots.legends.Legend;
 import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
-import de.erichseifert.gral.plots.lines.LineRenderer;
-import de.erichseifert.gral.plots.points.PointRenderer;
 import de.erichseifert.gral.ui.InteractivePanel;
 import de.erichseifert.gral.util.Orientation;
 
@@ -56,26 +51,26 @@ public privileged aspect Graph {
 
     private static XYPlot createPlot() {
         XYPlot plot = new XYPlot(playersGraphs[0], playersGraphs[1], playersGraphs[2], playersGraphs[3]);
-        plot.setSetting(Plot.LEGEND, true);
-        plot.getLegend().setSetting(Legend.ORIENTATION, Orientation.HORIZONTAL);
-        plot.getLegend().setSetting(Legend.ALIGNMENT_Y, 1.0);
+        plot.setLegendVisible(true);
+        plot.getLegend().setOrientation(Orientation.HORIZONTAL);
+        plot.getLegend().setAlignmentY(1.0);
 
-        plot.getAxisRenderer(XYPlot.AXIS_X).setSetting(AxisRenderer.LABEL, "Geld");
-        plot.getAxisRenderer(XYPlot.AXIS_Y).setSetting(AxisRenderer.LABEL, "Spielanazahl");
+        plot.getAxisRenderer(XYPlot.AXIS_X).setLabel("Geld");
+        plot.getAxisRenderer(XYPlot.AXIS_Y).setLabel("Spielanazahl");
 
         plot.setLineRenderer(playersGraphs[0], new DefaultLineRenderer2D());
         plot.setLineRenderer(playersGraphs[1], new DefaultLineRenderer2D());
         plot.setLineRenderer(playersGraphs[2], new DefaultLineRenderer2D());
         plot.setLineRenderer(playersGraphs[3], new DefaultLineRenderer2D());
 
-        plot.getPointRenderer(playersGraphs[0]).setSetting(PointRenderer.COLOR, Color.blue);
-        plot.getLineRenderer(playersGraphs[0]).setSetting(LineRenderer.COLOR, Color.blue);
-        plot.getPointRenderer(playersGraphs[1]).setSetting(PointRenderer.COLOR, Color.red);
-        plot.getLineRenderer(playersGraphs[1]).setSetting(LineRenderer.COLOR, Color.red);
-        plot.getPointRenderer(playersGraphs[2]).setSetting(PointRenderer.COLOR, Color.green);
-        plot.getLineRenderer(playersGraphs[2]).setSetting(LineRenderer.COLOR, Color.green);
-        plot.getPointRenderer(playersGraphs[3]).setSetting(PointRenderer.COLOR, Color.gray);
-        plot.getLineRenderer(playersGraphs[3]).setSetting(LineRenderer.COLOR, Color.gray);
+        plot.getPointRenderer(playersGraphs[0]).setColor(Color.blue);
+        plot.getLineRenderer(playersGraphs[0]).setColor(Color.blue);
+        plot.getPointRenderer(playersGraphs[1]).setColor(Color.red);
+        plot.getLineRenderer(playersGraphs[1]).setColor(Color.red);
+        plot.getPointRenderer(playersGraphs[2]).setColor(Color.green);
+        plot.getLineRenderer(playersGraphs[2]).setColor(Color.green);
+        plot.getPointRenderer(playersGraphs[3]).setColor(Color.gray);
+        plot.getLineRenderer(playersGraphs[3]).setColor(Color.gray);
 
         return plot;
     }
