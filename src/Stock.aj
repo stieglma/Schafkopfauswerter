@@ -53,21 +53,22 @@ public privileged aspect Stock {
     }
 
     void around() : call (* Schafkopfmodel.addWeiter()) {
-        DataObject obj = gui.model.gameDB.getLast();
+        DataObject obj = gui.model.gameDB.getLast().copyOf();
+        obj.player = "/";
+        obj.game = "weiter";
+        obj.won = WIN.NOONE;
+        obj.gameVal = 0;
 
-        if (!useStock) {
-            gui.model.gameDB.addData(obj);
-            return;
+        if (useStock) {
+            obj.valP1 = obj.valP1 - rufspiel;
+            obj.valP2 = obj.valP2 - rufspiel;
+            obj.valP3 = obj.valP3 - rufspiel;
+            obj.valP4 = obj.valP4 - rufspiel;
+            obj.stock = gui.model.gameDB.getLast().getStock() + rufspiel*4;
+            obj.gameVal = rufspiel;
         }
 
-        int valP1 = obj.getValP1() - rufspiel;
-        int valP2 = obj.getValP2() - rufspiel;
-        int valP3 = obj.getValP3() - rufspiel;
-        int valP4 = obj.getValP4() - rufspiel;
-
-        DataObject newObj = new DataObject("/", "weiter", rufspiel, valP1, valP2, valP3, valP4, WIN.NOONE);
-        newObj.stock = gui.model.gameDB.getLast().getStock() + rufspiel*4;
-        gui.model.gameDB.addData(newObj);
+        gui.model.gameDB.addData(obj);
 
     }
 

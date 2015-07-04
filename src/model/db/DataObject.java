@@ -38,6 +38,10 @@ public class DataObject {
         won = SystemValues.WIN.getEnumFromString(values[8]);
     }
 
+    public DataObject copyOf() {
+        return new DataObject(player, game, gameVal, valP1, valP2, valP3, valP4, won);
+    }
+
     public String getPlayer() {
         return player;
     }
