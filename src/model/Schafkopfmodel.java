@@ -98,6 +98,7 @@ public class Schafkopfmodel {
     }
 
     public void addWeiter() {
-        gameDB.addData(gameDB.getLast());
+        DataObject obj = gameDB.getLast();
+        gameDB.addData(new DataObject("/", "weiter", 0, obj.getValP1(), obj.getValP2(), obj.getValP3(), obj.getValP4(), WIN.NOONE));
     }
 }
