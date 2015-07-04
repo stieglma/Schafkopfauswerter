@@ -69,7 +69,6 @@ public final class SystemValues {
         NOONE, PLAYER, ENEMY;
 
         public static WIN getEnumFromString(String str) {
-            System.out.println(str);
             if (str.equals(ENEMY.toString())) {
                 return ENEMY;
             } else if (str.equals(PLAYER.toString())) {
