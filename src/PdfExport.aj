@@ -50,18 +50,6 @@ public privileged aspect PdfExport {
         return rows;
     }
 
-    private String[] DataObject.asTextArray(int index) {
-       return new String[] {Integer.toString(index),
-                            player,
-                            game,
-                            Integer.toString(gameVal),
-                            Integer.toString(valP1),
-                            Integer.toString(valP2),
-                            Integer.toString(valP3),
-                            Integer.toString(valP4),
-                            Integer.toString(stock)};
-    }
-
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
         JMenuItem itemExportPdf = new JMenuItem("Generiere PDF Report");
         itemExportPdf.addActionListener(new PDFReportListener());

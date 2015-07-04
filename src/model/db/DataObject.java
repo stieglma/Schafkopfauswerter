@@ -42,6 +42,17 @@ public class DataObject {
         return new DataObject(player, game, gameVal, valP1, valP2, valP3, valP4, won);
     }
 
+    public String[] asTextArray(int index) {
+        return new String[] {Integer.toString(index),
+                             player,
+                             game,
+                             Integer.toString(gameVal),
+                             Integer.toString(valP1),
+                             Integer.toString(valP2),
+                             Integer.toString(valP3),
+                             Integer.toString(valP4)};
+    }
+
     public String getPlayer() {
         return player;
     }

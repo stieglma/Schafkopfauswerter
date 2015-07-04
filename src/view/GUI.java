@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -51,6 +52,17 @@ public class GUI extends JFrame {
         JMenuBar menuBar = new JMenuBar();
 
         JMenu menuFile = new JMenu("Datei");
+        JMenuItem endProgram = new JMenuItem("Beenden");
+        endProgram.addActionListener(new ActionListener() {
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (Frame frame : JFrame.getFrames()) {
+                    frame.dispose();
+                }
+            }
+        });
+        menuFile.add(endProgram);
         menuBar.add(menuFile);
 
         return menuBar;

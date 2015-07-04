@@ -3,13 +3,13 @@
 		<struct>
 			<and abstract="true" mandatory="true" name="Schafkopfauswerter">
 				<feature mandatory="true" name="Base"/>
-				<and abstract="true" name="Export">
-					<and name="PdfExport">
+				<or abstract="true" name="Export">
+					<and mandatory="true" name="PdfExport">
 						<feature name="GraphExport"/>
 						<feature name="StatisticsExport"/>
 					</and>
-					<feature name="HtmlExport"/>
-				</and>
+					<feature mandatory="true" name="HtmlExport"/>
+				</or>
 				<feature name="Import"/>
 				<and name="Statistics">
 					<and abstract="true" name="OverallStats">

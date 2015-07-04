@@ -1,6 +1,7 @@
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.util.Arrays;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -50,6 +51,13 @@ public privileged aspect Stock {
             obj.stock = 0;
         }
         return obj;
+    }
+
+    String[] around(int index) : call (* DataObject.asTextArray(int)) && args(index) && target(DataObject){
+        String[] obj = proceed(index);
+        String[] retStr = Arrays.copyOf(obj, obj.length+1);
+        retStr[obj.length] = Integer.toString(((DataObject)thisJoinPoint.getTarget()).stock);
+        return retStr;
     }
 
     void around() : call (* Schafkopfmodel.addWeiter()) {

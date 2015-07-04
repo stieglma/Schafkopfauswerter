@@ -38,14 +38,20 @@ privileged aspect HtmlExport {
         Iterator<DataObject> it = data.iterator();
         int index = 0;
         while (it.hasNext()) {
-            str.append(it.next().asHtmlTableRow(index)+ "\n");
+            str.append(asHtmlTableRow(index, it.next()) + "\n");
             index++;
         }
         return str.toString();
     }
 
-    private String DataObject.asHtmlTableRow(int index) {
-       return "<tr><td>"+index+"</td><td>"+player+"</td><td>"+game+"</td><td>"+gameVal+"</td><td>"+valP1+"</td><td>"+valP2+"</td><td>"+valP3+"</td><td>"+valP4+"</td><td>"+won+"</td><td>"+stock+"</td></tr>";
+    private static String asHtmlTableRow(int index, DataObject obj) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<tr>");
+        for (String part : obj.asTextArray(index)) {
+            builder.append("<td>" + part + "</td>");
+        }
+        builder.append("</tr>");
+       return builder.toString();
     }
 
     after() returning(JMenuBar bar): call(JMenuBar GUI.createMenu()) {
