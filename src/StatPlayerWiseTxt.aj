@@ -77,7 +77,6 @@ public privileged aspect StatPlayerWiseTxt {
                 }
 
                 int accVal = dataObj.getPlayerVal(player);
-                System.out.println(player + ": " + accVal);
                 if (accVal > highestAcc) {
                     highestAcc = accVal;
                 } else if (accVal < lowestAcc) {
