@@ -73,6 +73,7 @@ public class SavingActionListener implements ActionListener {
                 break;
             case SIE:
                 model.addSoloSie(p1, gedoppelt);
+                break;
             default:
                 throw new AssertionError("unhandled case statement");
             }
