@@ -51,8 +51,6 @@ public privileged aspect StatPlayerWiseGraph {
             wonGames[i] = new DataTable(Integer.class, Double.class,String.class);
         }
 
-        updateData();
-;
         for (Players player : Players.values()) {
             playersTabs.addTab(player.toString(), createPlayersPanel(player));
         }
@@ -97,9 +95,9 @@ public privileged aspect StatPlayerWiseGraph {
             int soliCompleteAmountWon = data.getGamesWonPerType()[Games.SOLO.ordinal()]
                     + data.getGamesWonPerType()[Games.SIE.ordinal()]
                     + data.getGamesWonPerType()[Games.TOUT.ordinal()];
-            double soliGesamtWonPerc = soliCompleteAmount > 0
+            double soliGesamtWonPerc = (soliCompleteAmount > 0
                     ? (double) soliCompleteAmountWon / soliCompleteAmount
-                    : 0.0;
+                    : 0.0) * 100;
 
             while (wonGames[curPlayer].getRowCount() > 0) {
                 wonGames[curPlayer].removeLast();
