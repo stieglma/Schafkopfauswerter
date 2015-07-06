@@ -1,14 +1,20 @@
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LinearGradientPaint;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 
-import model.SystemValues.WIN;
-import model.db.DataObject;
+import model.SystemValues.Games;
+import model.SystemValues.Players;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.BarPlot;
 import de.erichseifert.gral.plots.PiePlot;
@@ -24,22 +30,21 @@ import view.UIUpdater;
 import model.db.GameData;
 
 public privileged aspect StatPlayerWiseGraph {
-    /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui
-     * object before statistics can create the tabbed pane
+    /**
+     * Statistics has to be the last feature executed, such that the subfeatures
+     * have the correct gui object before statistics can create the tabbed pane
      */
     declare precedence : Statistics, StatPlayerWiseGraph, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
-    private static JPanel panel = new JPanel();
+    private static JPanel containerPanel = new JPanel();
+    private static JPanel buttonPanel = new JPanel();
+    private static JPanel[] graphPanels = new JPanel[4];
 
     private static final Color COLOR1 = Color.GREEN;
 
-    @SuppressWarnings("unchecked")
-    private static DataTable playedTypes = new DataTable(Integer.class, String.class);
-    @SuppressWarnings("unchecked")
-    private static DataTable mostExpsvGame = new DataTable(Integer.class, Integer.class, String.class);
-    @SuppressWarnings("unchecked")
-    private static DataTable wonGames = new DataTable(Integer.class, Double.class, String.class);
+    private static DataTable playedTypes[] = new DataTable[4];
+    private static DataTable wonGames[] = new DataTable[4];
 
     after() returning(GUI gui): call(GUI.new(*)) {
         StatPlayerWiseGraph.gui = gui;
@@ -48,14 +53,88 @@ public privileged aspect StatPlayerWiseGraph {
     after(JTabbedPane tabbedPane): 
                         execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
                         && args(tabbedPane) {
-        panel.setLayout(new GridLayout(2, 2));
+        for (int i = 0; i < graphPanels.length; i++) {
+            graphPanels[i] = new JPanel();
+            playedTypes[i] = new DataTable(Integer.class, String.class);
+            wonGames[i] = new DataTable(Integer.class, Double.class,
+                    String.class);
+
+        }
 
         updateData();
-        panel.add(new InteractivePanel(createExpGameBarPlot()));
-        panel.add(new InteractivePanel(createWonGamesBarPlot()));
-        panel.add(new InteractivePanel(createPlayedTypesPlot()));
 
-        tabbedPane.addTab("PlayerWiseGrafik", panel);
+        JRadioButton player1CheckBox = new JRadioButton("Spieler 1");
+        JRadioButton player2CheckBox = new JRadioButton("Spieler 2");
+        JRadioButton player3CheckBox = new JRadioButton("Spieler 3");
+        JRadioButton player4CheckBox = new JRadioButton("Spieler 4");
+
+        player1CheckBox.setSelected(true);
+        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(player1CheckBox);
+        buttonGroup.add(player2CheckBox);
+        buttonGroup.add(player3CheckBox);
+        buttonGroup.add(player4CheckBox);
+
+        player1CheckBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                containerPanel.remove(1);
+                containerPanel.add(graphPanels[0], BorderLayout.CENTER, 1);
+                containerPanel.repaint();
+            }
+        });
+        player2CheckBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                containerPanel.remove(1);
+                containerPanel.add(graphPanels[1], BorderLayout.CENTER, 1);
+                containerPanel.repaint();
+            }
+        });
+        player3CheckBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                containerPanel.remove(1);
+                containerPanel.add(graphPanels[2], BorderLayout.CENTER, 1);
+                containerPanel.repaint();
+            }
+        });
+        player4CheckBox.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                containerPanel.remove(1);
+                containerPanel.add(graphPanels[3], BorderLayout.CENTER, 1);
+                containerPanel.repaint();
+            }
+        });
+
+        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.add(player1CheckBox);
+        buttonPanel.add(player2CheckBox);
+        buttonPanel.add(player3CheckBox);
+        buttonPanel.add(player4CheckBox);
+
+        for (JPanel graphPanel : graphPanels) {
+            graphPanel.setLayout(new GridLayout(2, 2));
+        }
+
+        for (Players player : Players.values()) {
+            int i = player.ordinal();
+            graphPanels[i].add(new InteractivePanel(
+                    createWonGamesBarPlot(player)));
+            graphPanels[i].add(new InteractivePanel(
+                    createPlayedTypesPlot(player)));
+        }
+
+        containerPanel.setLayout(new BorderLayout());
+        containerPanel.add(buttonPanel, BorderLayout.NORTH, 0);
+        containerPanel.add(graphPanels[0], BorderLayout.CENTER, 1);
+
+        tabbedPane.addTab("PlayerWiseGrafik", containerPanel);
     }
 
     after() : execution(* UIUpdater.run()) {
@@ -63,59 +142,70 @@ public privileged aspect StatPlayerWiseGraph {
     }
 
     private static void updateData() {
-        StatsData data = gui.model.getGameData().getPlayerWiseStatisticsData();
+        for (Players player : Players.values()) {
+            PlayerWiseStatistics data = gui.model.getGameData()
+                    .getPlayerWiseStatistics(player);
 
-        while (playedTypes.getRowCount() > 0) {
-            playedTypes.removeLast();
+            int i = player.ordinal();
+
+            while (playedTypes[i].getRowCount() > 0) {
+                playedTypes[i].removeLast();
+            }
+            playedTypes[i].add(
+                    data.getGamesPlayedPerType()[Games.RUFSPIEL.ordinal()],
+                    "Rufspiele");
+            playedTypes[i].add(
+                    data.getGamesPlayedPerType()[Games.SOLO.ordinal()], "Soli");
+            playedTypes[i].add(
+                    data.getGamesPlayedPerType()[Games.TOUT.ordinal()],
+                    "Soli Tout");
+            playedTypes[i].add(
+                    data.getGamesPlayedPerType()[Games.SIE.ordinal()],
+                    "Soli Sie");
+            playedTypes[i].add(
+                    data.getGamesPlayedPerType()[Games.WEITER.ordinal()],
+                    "Weiter");
+
+            // percentage of won games by gametype
+            int soli_complete_amount = data.getGamesPlayedPerType()[Games.SOLO
+                    .ordinal()]
+                    + data.getGamesPlayedPerType()[Games.SIE.ordinal()]
+                    + data.getGamesPlayedPerType()[Games.TOUT.ordinal()];
+            int soli_complete_amount_won = data.getGamesWonPerType()[Games.SOLO
+                    .ordinal()]
+                    + data.getGamesWonPerType()[Games.SIE.ordinal()]
+                    + data.getGamesWonPerType()[Games.TOUT.ordinal()];
+            double soli_gesamt_won_perc = soli_complete_amount > 0 ? (double) soli_complete_amount_won
+                    / soli_complete_amount
+                    : 0.0;
+
+            while (wonGames[i].getRowCount() > 0) {
+                wonGames[i].removeLast();
+            }
+            wonGames[i].add(1, data.getGamesWonPerc(), "Gesamt");
+            wonGames[i].add(2,
+                    data.getGamesWonPerTypePerc()[Games.RUFSPIEL.ordinal()],
+                    "Rufspiele");
+            wonGames[i].add(3, soli_gesamt_won_perc, "Soli gesamt");
+            wonGames[i].add(4,
+                    data.getGamesWonPerTypePerc()[Games.SOLO.ordinal()],
+                    "Soli normal");
+            wonGames[i].add(5,
+                    data.getGamesWonPerTypePerc()[Games.TOUT.ordinal()],
+                    "Soli Tout");
+            wonGames[i].add(6,
+                    data.getGamesWonPerTypePerc()[Games.SIE.ordinal()],
+                    "Soli Sie");
         }
-        playedTypes.add(data.anzahlRufspiele, "Rufspiele");
-        playedTypes.add(data.anzahlSolo, "Soli");
-        playedTypes.add(data.anzahlSoloTout, "Soli Tout");
-        playedTypes.add(data.anzahlSoloSie, "Soli Sie");
-        playedTypes.add(data.anzahlWeiter, "Weiter");
-
-        while (mostExpsvGame.getRowCount() > 0) {
-            mostExpsvGame.removeLast();
-        }
-        mostExpsvGame.add(1, data.teuerstesRufspiel, "Rufspiel");
-        mostExpsvGame.add(2, data.teuerstesSolo, "Solo");
-        mostExpsvGame.add(3, data.teuerstesSoloTout, "Solo Tout");
-        mostExpsvGame.add(4, data.teuerstesSoloSie, "Solo Sie");
-
-        // percentage of won games by gametype
-        double gesamt = (data.anzahlSpieleGesamt > 0 ? data.anzahlSpieleGesamtGewonnen
-                / ((double) data.anzahlSpieleGesamt)
-                : 0) * 100;
-        double rufspiele = (data.anzahlRufspiele > 0 ? data.anzahlGewonneneRufspiele
-                / ((double) data.anzahlRufspiele)
-                : 0) * 100;
-        double soli_gesamt = ((data.anzahlSolo + data.anzahlSoloSie + data.anzahlSoloTout) > 0 ? ((data.anzahlGewonneneSoli
-                + data.anzahlGewonneneSoliTout + data.anzahlSoloSie) / 1.0 / (data.anzahlSolo
-                + data.anzahlSoloSie + data.anzahlSoloTout))
-                : 0) * 100;
-        double soli_normal = (data.anzahlSolo > 0 ? data.anzahlGewonneneSoli
-                / ((double) data.anzahlSolo) : 0) * 100;
-        double soli_tout = (data.anzahlSoloTout > 0 ? data.anzahlGewonneneSoliTout
-                / ((double) data.anzahlSoloTout)
-                : 0) * 100;
-        double soli_sie = (data.anzahlSoloSie > 0 ? data.anzahlSoloSie
-                / ((double) data.anzahlSoloSie) : 0) * 100;
-
-        while (wonGames.getRowCount() > 0) {
-            wonGames.removeLast();
-        }
-        wonGames.add(1, gesamt, "Gesamt");
-        wonGames.add(2, rufspiele, "Rufspiele");
-        wonGames.add(3, soli_gesamt, "Soli gesamt");
-        wonGames.add(4, soli_normal, "Soli normal");
-        wonGames.add(5, soli_tout, "Soli Tout");
-        wonGames.add(6, soli_sie, "Soli Sie");
     }
 
-    private static PiePlot createPlayedTypesPlot() {
-        PiePlot plot = new PiePlot(playedTypes);
+    private static PiePlot createPlayedTypesPlot(Players player) {
+        int playerIndex = player.ordinal();
 
-        PointRenderer pointRenderer = plot.getPointRenderer(playedTypes);
+        PiePlot plot = new PiePlot(playedTypes[playerIndex]);
+
+        PointRenderer pointRenderer = plot
+                .getPointRenderer(playedTypes[playerIndex]);
         pointRenderer.setValueVisible(true);
         pointRenderer.setValueColumn(1);
 
@@ -129,7 +219,7 @@ public privileged aspect StatPlayerWiseGraph {
         plot.setInsets(new Insets2D.Double(20.0, 40.0, 40.0, 40.0));
 
         PieSliceRenderer pieSliceRenderer = (PieSliceRenderer) plot
-                .getPointRenderer(playedTypes);
+                .getPointRenderer(playedTypes[playerIndex]);
 
         // Change relative size of inner region
         pieSliceRenderer.setInnerRadius(0.4);
@@ -143,38 +233,9 @@ public privileged aspect StatPlayerWiseGraph {
         return plot;
     }
 
-    public BarPlot createExpGameBarPlot() {
-        // Create new bar plot
-        BarPlot plot = new BarPlot(mostExpsvGame);
+    public BarPlot createWonGamesBarPlot(Players player) {
+        int playerIndex = player.ordinal();
 
-        // Format plot
-        plot.getTitle().setText("Teuerstes Spiel pro Spieltyp");
-        plot.setInsets(new Insets2D.Double(40.0, 40.0, 40.0, 40.0));
-        plot.setBarWidth(0.075);
-
-        // Format bars
-        PointRenderer pointRenderer = plot.getPointRenderer(mostExpsvGame);
-        BarRenderer barRenderer = (BarRenderer) pointRenderer;
-
-        barRenderer.setColor(new LinearGradientPaint(0f, 0f, 0f, 1f,
-                new float[] { 0.0f, 1.0f }, new Color[] { COLOR1,
-                        GraphicsUtils.deriveBrighter(COLOR1) }));
-        barRenderer.setBorderStroke(new BasicStroke(3f));
-        barRenderer.setBorderColor(new LinearGradientPaint(0f, 0f, 0f, 1f,
-                new float[] { 0.0f, 1.0f }, new Color[] {
-                        GraphicsUtils.deriveBrighter(COLOR1), COLOR1 }));
-
-        pointRenderer.setValueVisible(true);
-        pointRenderer.setValueColumn(2);
-
-        pointRenderer.setValueLocation(Location.CENTER);
-        pointRenderer.setValueColor(GraphicsUtils.deriveDarker(COLOR1));
-        pointRenderer.setValueFont(Font.decode(null).deriveFont(Font.BOLD));
-
-        return plot;
-    }
-
-    public BarPlot createWonGamesBarPlot() {
         // Create new bar plot
         BarPlot plot = new BarPlot(wonGames);
 
@@ -184,7 +245,8 @@ public privileged aspect StatPlayerWiseGraph {
         plot.setBarWidth(0.075);
 
         // Format bars
-        PointRenderer pointRenderer = plot.getPointRenderer(wonGames);
+        PointRenderer pointRenderer = plot
+                .getPointRenderer(wonGames[playerIndex]);
         BarRenderer barRenderer = (BarRenderer) pointRenderer;
 
         barRenderer.setColor(new LinearGradientPaint(0f, 0f, 0f, 1f,
@@ -203,121 +265,5 @@ public privileged aspect StatPlayerWiseGraph {
         pointRenderer.setValueFont(Font.decode(null).deriveFont(Font.BOLD));
 
         return plot;
-    }
-
-    public StatsData GameData.getPlayerWiseStatisticsData() {
-        int anzahlSpieleGesamt = 0;
-        int anzahlSpieleGesamtGewonnen = 0;
-        int teuerstesRufspiel = 0;
-        int teuerstesSolo = 0;
-        int teuerstesSoloTout = 0;
-        int teuerstesSoloSie = 0;
-        int anzahlRufspiele = 0;
-        int anzahlSolo = 0;
-        int anzahlSoloTout = 0;
-        int anzahlSoloSie = 0;
-        int anzahlGewonneneRufspiele = 0;
-        int anzahlGewonneneSoli = 0;
-        int anzahlGewonneneSoliTout = 0;
-        int anzahlWeiter = 0;
-
-        for (DataObject obj : data) {
-            switch (obj.getGameKind()) {
-            case RUFSPIEL:
-                anzahlRufspiele++;
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneRufspiele++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesRufspiel) {
-                    teuerstesRufspiel = obj.getGameValue();
-                }
-                break;
-            case SOLO:
-                anzahlSolo++;
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneSoli++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesSolo) {
-                    teuerstesSolo = obj.getGameValue();
-                }
-                break;
-            case TOUT:
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneSoliTout++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesSoloTout) {
-                    teuerstesSoloTout = obj.getGameValue();
-                }
-                anzahlSoloTout++;
-                break;
-            case SIE:
-                anzahlSpieleGesamt++;
-                anzahlSpieleGesamtGewonnen++;
-                anzahlSoloSie++;
-                if (obj.getGameValue() > teuerstesSoloSie) {
-                    teuerstesSoloSie = obj.getGameValue();
-                }
-                break;
-            case WEITER:
-                anzahlWeiter++;
-                break;
-            case NONE:
-                break; // nothing to do here
-            default:
-                break;
-            }
-        }
-
-        return new StatsData(anzahlSpieleGesamt, anzahlSpieleGesamtGewonnen,
-                teuerstesRufspiel, teuerstesSolo, teuerstesSoloTout,
-                teuerstesSoloSie, anzahlRufspiele, anzahlSolo, anzahlSoloTout,
-                anzahlSoloSie, anzahlGewonneneRufspiele, anzahlGewonneneSoli,
-                anzahlGewonneneSoliTout, anzahlWeiter);
-    }
-
-    private static class StatsData {
-        protected int anzahlSpieleGesamt = 0;
-        protected int anzahlSpieleGesamtGewonnen = 0;
-        protected int teuerstesRufspiel = 0;
-        protected int teuerstesSolo = 0;
-        protected int teuerstesSoloTout = 0;
-        protected int teuerstesSoloSie = 0;
-        protected int anzahlRufspiele = 0;
-        protected int anzahlSolo = 0;
-        protected int anzahlSoloTout = 0;
-        protected int anzahlSoloSie = 0;
-        protected int anzahlGewonneneRufspiele = 0;
-        protected int anzahlGewonneneSoli = 0;
-        protected int anzahlGewonneneSoliTout = 0;
-        protected int anzahlWeiter = 0;
-
-        public StatsData(int anzahlSpieleGesamt,
-                int anzahlSpieleGesamtGewonnen, int teuerstesRufspiel,
-                int teuerstesSolo, int teuerstesSoloTout, int teuerstesSoloSie,
-                int anzahlRufspiele, int anzahlSolo, int anzahlSoloTout,
-                int anzahlSoloSie, int anzahlGewonneneRufspiele,
-                int anzahlGewonneneSoli, int anzahlGewonneneSoliTout,
-                int anzahlWeiter) {
-            this.anzahlSpieleGesamt = anzahlSpieleGesamt;
-            this.anzahlSpieleGesamtGewonnen = anzahlSpieleGesamtGewonnen;
-            this.teuerstesRufspiel = teuerstesRufspiel;
-            this.teuerstesSolo = teuerstesSolo;
-            this.teuerstesSoloTout = teuerstesSoloTout;
-            this.teuerstesSoloSie = teuerstesSoloSie;
-            this.anzahlRufspiele = anzahlRufspiele;
-            this.anzahlSolo = anzahlSolo;
-            this.anzahlSoloTout = anzahlSoloTout;
-            this.anzahlSoloSie = anzahlSoloSie;
-            this.anzahlGewonneneRufspiele = anzahlGewonneneRufspiele;
-            this.anzahlGewonneneSoli = anzahlGewonneneSoli;
-            this.anzahlGewonneneSoliTout = anzahlGewonneneSoliTout;
-            this.anzahlWeiter = anzahlWeiter;
-        }
     }
 }
