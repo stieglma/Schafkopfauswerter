@@ -16,7 +16,7 @@
 						<feature mandatory="true" name="StatOverallTxt"/>
 						<feature mandatory="true" name="StatOverallGraph"/>
 					</or>
-					<or abstract="true" mandatory="true" name="PlayerWiseStats">
+					<or mandatory="true" name="PlayerWiseStats">
 						<feature mandatory="true" name="StatPlayerWiseTxt"/>
 						<feature mandatory="true" name="StatPlayerWiseGraph"/>
 					</or>

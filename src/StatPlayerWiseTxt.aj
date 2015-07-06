@@ -1,5 +1,4 @@
 import java.awt.GridLayout;
-import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -10,8 +9,6 @@ import view.UIUpdater;
 import model.db.GameData;
 import model.SystemValues.Games;
 import model.SystemValues.Players;
-import model.SystemValues.WIN;
-import model.db.DataObject;
 
 public privileged aspect StatPlayerWiseTxt {
     /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui
@@ -48,64 +45,13 @@ public privileged aspect StatPlayerWiseTxt {
             result.append(player);
             result.append(":" + System.lineSeparator() + System.lineSeparator());
 
-            int gamesPlayedTot = 0;
-            int gamesWonTot = 0;
-            int highestAcc = 0;
-            int lowestAcc = 0;
-            int highestWin = 0;
-            int highestLoss = 0;
-
-            int[] gamesPlayedPerType = new int[Games.values().length];
-            int[] gamesWonPerType = new int[Games.values().length];
-
-            Iterator<DataObject> it = data.iterator();
-            DataObject lastObj = it.next();
-
-            while (it.hasNext()) {
-                DataObject dataObj = it.next();
-
-                if (dataObj.getPlayer().equals(player.toString())) {
-                    gamesPlayedTot++;
-                    gamesPlayedPerType[dataObj.getGameKind().ordinal()]++;
-                    if (dataObj.getGameWon() == WIN.PLAYER) {
-                        gamesWonTot++;
-                        gamesWonPerType[dataObj.getGameKind().ordinal()]++;
-                    }
-                }
-                int gameVal = dataObj.getPlayerVal(player) - lastObj.getPlayerVal(player);
-                if (gameVal > highestWin) {
-                    highestWin = gameVal;
-                } else if (gameVal < highestLoss) {
-                    highestLoss = gameVal;
-                }
-
-                int accVal = dataObj.getPlayerVal(player);
-                if (accVal > highestAcc) {
-                    highestAcc = accVal;
-                } else if (accVal < lowestAcc) {
-                    lowestAcc = accVal;
-                }
-                
-                lastObj = dataObj;
-            }
-
-            double gamesWonPerc = ((gamesPlayedTot + gamesWonTot) > 0 ? (double) gamesWonTot
-                    / gamesPlayedTot
-                    : 0.0) * 100;
-
-            double gamesWonPerTypePerc[] = new double[Games.values().length];
-            for (Games game : Games.values()) {
-                int i = game.ordinal();
-                gamesWonPerTypePerc[i] = ((gamesPlayedPerType[i] + gamesWonPerType[i]) > 0 ? (double) gamesWonPerType[i]
-                        / gamesPlayedPerType[i]
-                        : 0.0) * 100;
-            }
+            PlayerWiseStatistics data = gui.model.getGameData().getPlayerWiseStatistics(player);
 
             result.append(
                     "Gespielte Spiele:" + System.lineSeparator() + "\t"
-                            + "- Gesamt: " + gamesPlayedTot)
-                    .append(", davon gewonnen: " + gamesWonTot)
-                    .append(" (" + String.format("%.2f", gamesWonPerc) + "%)"
+                            + "- Gesamt: " + data.getGamesPlayedTot())
+                    .append(", davon gewonnen: " + data.getGamesWonTot())
+                    .append(" (" + String.format("%.2f", data.getGamesWonPerc()) + "%)"
                             + System.lineSeparator());
 
             for (Games game : Games.values()) {
@@ -113,22 +59,22 @@ public privileged aspect StatPlayerWiseTxt {
                     int i = game.ordinal();
                     result.append(
                             "\t- " + game.toString() + ": "
-                                    + gamesPlayedPerType[i])
-                            .append(", davon gewonnen: " + gamesWonPerType[i])
+                                    + data.getGamesPlayedPerType()[i])
+                            .append(", davon gewonnen: " + data.getGamesWonPerType()[i])
                             .append(" ("
                                     + String.format("%.2f",
-                                            gamesWonPerTypePerc[i]) + "%)"
+                                            data.getGamesWonPerTypePerc()[i]) + "%)"
                                     + System.lineSeparator());
                 }
             }
 
-            result.append("Höchster Kontostand: " + highestAcc
+            result.append("Höchster Kontostand: " + data.getHighestAcc()
                     + System.lineSeparator() + "Niedrigster Kontostand: "
-                    + lowestAcc + System.lineSeparator());
+                    + data.getLowestAcc() + System.lineSeparator());
 
-            result.append("Größter Gewinn: " + highestWin
+            result.append("Größter Gewinn: " + data.getHighestWin()
                     + System.lineSeparator());
-            result.append("Größter Verlust: " + highestLoss
+            result.append("Größter Verlust: " + data.getHighestLoss()
                     + System.lineSeparator());
 
             result.append(System.lineSeparator());
