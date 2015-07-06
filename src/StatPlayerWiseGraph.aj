@@ -24,6 +24,9 @@ import view.UIUpdater;
 import model.db.GameData;
 
 public privileged aspect StatPlayerWiseGraph {
+    /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui
+     * object before statistics can create the tabbed pane
+     */
     declare precedence : Statistics, StatPlayerWiseGraph, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;

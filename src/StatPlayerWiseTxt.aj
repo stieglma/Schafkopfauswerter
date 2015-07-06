@@ -14,7 +14,10 @@ import model.SystemValues.WIN;
 import model.db.DataObject;
 
 public privileged aspect StatPlayerWiseTxt {
-    declare precedence : StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
+    /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui
+     * object before statistics can create the tabbed pane
+     */
+    declare precedence : Statistics, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
     private static JPanel panel = new JPanel();

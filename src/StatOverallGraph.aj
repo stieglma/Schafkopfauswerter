@@ -21,6 +21,9 @@ import view.GUI;
 import view.UIUpdater;
 
 public privileged aspect StatOverallGraph {
+    /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui
+     * object before statistics can create the tabbed pane
+     */
     declare precedence : Statistics, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
