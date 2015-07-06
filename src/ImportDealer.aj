@@ -13,6 +13,7 @@ public privileged aspect ImportDealer {
         this.gui = gui;
     }
 
+    /** reset the dealer index to the appropriate value after importing */
     after() : execution(* LoadFileListener.actionPerformed(*)) {
         Dealer.dealerIndex = (gui.model.gameDB.size()-1) % 4;
         Dealer.updateShownDealer();
