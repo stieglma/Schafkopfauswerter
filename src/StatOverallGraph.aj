@@ -31,12 +31,12 @@ public privileged aspect StatOverallGraph {
 
     private static final Color COLOR1 = Color.GREEN;
 
-    private static DataTable playedTypes = new DataTable(Integer.class,
-            String.class);
-    private static DataTable mostExpsvGame = new DataTable(Integer.class,
-            Integer.class, String.class);
-    private static DataTable wonGames = new DataTable(Integer.class,
-            Double.class, String.class);
+    @SuppressWarnings("unchecked")
+    private static DataTable playedTypes = new DataTable(Integer.class, String.class);
+    @SuppressWarnings("unchecked")
+    private static DataTable mostExpsvGame = new DataTable(Integer.class, Integer.class, String.class);
+    @SuppressWarnings("unchecked")
+    private static DataTable wonGames = new DataTable(Integer.class, Double.class, String.class);
 
     after() returning(GUI gui): call(GUI.new(*)) {
         StatOverallGraph.gui = gui;
@@ -263,6 +263,10 @@ public privileged aspect StatOverallGraph {
                 break;
             case WEITER:
                 anzahlWeiter++;
+                break;
+            case NONE:
+                break; // nothing todo here
+            default:
                 break;
             }
         }

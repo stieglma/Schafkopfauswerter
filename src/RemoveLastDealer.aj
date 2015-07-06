@@ -1,5 +1,3 @@
-import view.GUI;
-
 
 public privileged aspect RemoveLastDealer {
 
