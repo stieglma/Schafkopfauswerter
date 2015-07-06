@@ -38,21 +38,21 @@ public privileged aspect StatOverallTxt {
                 + String.format("%.2f", data.getGesamtWinPerc()) + "%)\n"
                 + "#Rufspiele: " + data.getAnzahlRufspiele() + " (gewonnen: "
                 + String.format("%.2f", data.getRufspieleWinPerc()) + "%)\n"
-                + "          -> teurstes Rufspiel: "
+                + "          -> teuerstes Rufspiel: "
                 + data.getTeuerstesRufspiel() + "\n" + "#Soli gesamt: "
                 + data.getAnzahlSoliGesamt() + " (gewonnen: "
                 + String.format("%.2f", data.getSoliGesamtWinPerc())
                 + "%)\n" + "#Soli normal: " + data.getAnzahlSoli()
                 + " (gewonnen: "
                 + String.format("%.2f", data.getSoliNormalWinPerc()) + "%)\n"
-                + "            -> teurstes Solo: " + data.getTeuerstesSolo()
+                + "            -> teuerstes Solo: " + data.getTeuerstesSolo()
                 + "\n" + "#Solo Tout: " + data.getAnzahlSoliTout()
                 + " (gewonnen: "
                 + String.format("%.2f", data.getSoliToutWinPerc()) + "%)\n"
-                + "          -> teurstes Solo Tout: "
+                + "          -> teuerstes Solo Tout: "
                 + data.getTeuerstesSoloTout() + "\n" + "#Solo Sie: "
                 + data.getAnzahlSoliSie() + "\n"
-                + "         -> teurstes Solo Sie: "
+                + "         -> teuerstes Solo Sie: "
                 + data.getTeuerstesSoloSie() + "\n" + "#Weiter: "
                 + data.getAnzahlWeiter();
     }
