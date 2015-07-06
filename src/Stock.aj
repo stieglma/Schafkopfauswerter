@@ -30,18 +30,22 @@ public privileged aspect Stock {
     }
 
 
+    /** add stock variable to DataObject */
     private int DataObject.stock;
 
+    /** catch constructor call and set stock to appropriate value */
     DataObject around(String[] values) : call ( DataObject.new(String[])) && args(values){
         DataObject obj = proceed(values);
         obj.stock = Integer.parseInt(values[9]);
         return obj;
     }
  
+    /** add method to retrieve value of stock */
     public int DataObject.getStock() {
         return stock;
     }
 
+    /** when a new dataobject is created, set to value of last dataobject or 0 */
     DataObject around(String player, String game, int gameVal, int valP1, int valP2, int valP3, int valP4, WIN winner)
             : call (DataObject.new(String, String, int, int, int, int, int, WIN))
             && args (player, game, gameVal, valP1, valP2, valP3, valP4, winner) {
@@ -54,6 +58,7 @@ public privileged aspect Stock {
         return obj;
     }
 
+    /** add stock object to asTextArray method of DataObject */
     String[] around(int index) : call (* DataObject.asTextArray(int)) && args(index) && target(DataObject){
         String[] obj = proceed(index);
         String[] retStr = Arrays.copyOf(obj, obj.length+1);
@@ -61,6 +66,7 @@ public privileged aspect Stock {
         return retStr;
     }
 
+    /** addWeiter has to be changed if stock is used, such that the stock is increased then */
     void around() : call (* Schafkopfmodel.addWeiter()) {
         DataObject obj = gui.model.gameDB.getLast().copyOf();
         obj.player = "/";
@@ -81,6 +87,8 @@ public privileged aspect Stock {
 
     }
 
+    /** For Rufspiele we have to adjust the stock (if won, add stock to players,
+     *  if lost double up stock */
     void around(int price, Players one, Players two, boolean won)
             : call (* Schafkopfmodel.addRufspielHelp(int, Players, Players, boolean))
             && args(price, one, two, won) {
@@ -117,10 +125,12 @@ public privileged aspect Stock {
         gui.model.gameDB.addData(newObj);
     }
 
+    /** with stock we have one more columnn */
     int around() : execution (* SchafkopfTableModel.getColumnCount()) {
         return proceed() + 1;
     }
 
+    /** retrieve stock value when needed */
     Object around(int rowIndex, int columnIndex)
     : execution (* SchafkopfTableModel.getValueAt(int, int))
     && args(rowIndex, columnIndex) {
@@ -131,6 +141,7 @@ public privileged aspect Stock {
         }
     }
 
+    /** Table header for stock */
     Object around(int index)
     : execution (* SchafkopfTableModel.getColumnName(int))
     && args(index) {
@@ -143,6 +154,7 @@ public privileged aspect Stock {
 
     private JCheckBox checkboxStock;
 
+    /** Add stock checkbox to config screen*/
     after() returning(JPanel pane): execution (* ConfigPopup.createOptionsPane()) {
         JPanel panelStock = new JPanel();
         panelStock.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -157,10 +169,12 @@ public privileged aspect Stock {
         useStock = checkboxStock.isSelected();
     }
 
+    /** create html header with stock */
     String around() : execution(* ExportActionListener.createHeader()) {
         return proceed() + "<p>Stock: " + (useStock ? "ja" : "nein") + "</p>";
     }
 
+    /** read stock value for Import */
     boolean around(String firstLine, String secondLine)
       : execution(* LoadFileListener.setSystemValues(String, String))
       && args(firstLine, secondLine) {
