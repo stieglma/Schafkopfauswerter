@@ -77,59 +77,39 @@ public privileged aspect StatPlayerWiseGraph {
 
     private static void updateData() {
         for (Players player : Players.values()) {
-            PlayerWiseStatistics data = gui.model.getGameData()
-                    .getPlayerWiseStatistics(player);
+            PlayerWiseStatistics data = gui.model.getGameData().getPlayerWiseStatistics(player);
 
-            int i = player.ordinal();
+            int curPlayer = player.ordinal();
 
-            while (playedTypes[i].getRowCount() > 0) {
-                playedTypes[i].removeLast();
+            while (playedTypes[curPlayer].getRowCount() > 0) {
+                playedTypes[curPlayer].removeLast();
             }
-            playedTypes[i].add(
-                    data.getGamesPlayedPerType()[Games.RUFSPIEL.ordinal()],
-                    "Rufspiele");
-            playedTypes[i].add(
-                    data.getGamesPlayedPerType()[Games.SOLO.ordinal()], "Soli");
-            playedTypes[i].add(
-                    data.getGamesPlayedPerType()[Games.TOUT.ordinal()],
-                    "Soli Tout");
-            playedTypes[i].add(
-                    data.getGamesPlayedPerType()[Games.SIE.ordinal()],
-                    "Soli Sie");
-            playedTypes[i].add(
-                    data.getGamesPlayedPerType()[Games.WEITER.ordinal()],
-                    "Weiter");
+            playedTypes[curPlayer].add(data.getGamesPlayedPerType()[Games.RUFSPIEL.ordinal()], "Rufspiele");
+            playedTypes[curPlayer].add(data.getGamesPlayedPerType()[Games.SOLO.ordinal()], "Soli");
+            playedTypes[curPlayer].add(data.getGamesPlayedPerType()[Games.TOUT.ordinal()], "Soli Tout");
+            playedTypes[curPlayer].add(data.getGamesPlayedPerType()[Games.SIE.ordinal()],"Soli Sie");
+            playedTypes[curPlayer].add(data.getGamesPlayedPerType()[Games.WEITER.ordinal()], "Weiter");
 
             // percentage of won games by gametype
-            int soli_complete_amount = data.getGamesPlayedPerType()[Games.SOLO
-                    .ordinal()]
+            int soliCompleteAmount = data.getGamesPlayedPerType()[Games.SOLO.ordinal()]
                     + data.getGamesPlayedPerType()[Games.SIE.ordinal()]
                     + data.getGamesPlayedPerType()[Games.TOUT.ordinal()];
-            int soli_complete_amount_won = data.getGamesWonPerType()[Games.SOLO
-                    .ordinal()]
+            int soliCompleteAmountWon = data.getGamesWonPerType()[Games.SOLO.ordinal()]
                     + data.getGamesWonPerType()[Games.SIE.ordinal()]
                     + data.getGamesWonPerType()[Games.TOUT.ordinal()];
-            double soli_gesamt_won_perc = soli_complete_amount > 0 ? (double) soli_complete_amount_won
-                    / soli_complete_amount
+            double soliGesamtWonPerc = soliCompleteAmount > 0
+                    ? (double) soliCompleteAmountWon / soliCompleteAmount
                     : 0.0;
 
-            while (wonGames[i].getRowCount() > 0) {
-                wonGames[i].removeLast();
+            while (wonGames[curPlayer].getRowCount() > 0) {
+                wonGames[curPlayer].removeLast();
             }
-            wonGames[i].add(1, data.getGamesWonPerc(), "Gesamt");
-            wonGames[i].add(2,
-                    data.getGamesWonPerTypePerc()[Games.RUFSPIEL.ordinal()],
-                    "Rufspiele");
-            wonGames[i].add(3, soli_gesamt_won_perc, "Soli gesamt");
-            wonGames[i].add(4,
-                    data.getGamesWonPerTypePerc()[Games.SOLO.ordinal()],
-                    "Soli normal");
-            wonGames[i].add(5,
-                    data.getGamesWonPerTypePerc()[Games.TOUT.ordinal()],
-                    "Soli Tout");
-            wonGames[i].add(6,
-                    data.getGamesWonPerTypePerc()[Games.SIE.ordinal()],
-                    "Soli Sie");
+            wonGames[curPlayer].add(1, data.getGamesWonPerc(), "Gesamt");
+            wonGames[curPlayer].add(2, data.getGamesWonPerTypePerc()[Games.RUFSPIEL.ordinal()], "Rufspiele");
+            wonGames[curPlayer].add(3, soliGesamtWonPerc, "Soli gesamt");
+            wonGames[curPlayer].add(4, data.getGamesWonPerTypePerc()[Games.SOLO.ordinal()], "Soli normal");
+            wonGames[curPlayer].add(5, data.getGamesWonPerTypePerc()[Games.TOUT.ordinal()], "Soli Tout");
+            wonGames[curPlayer].add(6, data.getGamesWonPerTypePerc()[Games.SIE.ordinal()], "Soli Sie");
         }
     }
 
@@ -179,8 +159,7 @@ public privileged aspect StatPlayerWiseGraph {
         plot.setBarWidth(0.075);
 
         // Format bars
-        PointRenderer pointRenderer = plot
-                .getPointRenderer(wonGames[playerIndex]);
+        PointRenderer pointRenderer = plot.getPointRenderer(wonGames[playerIndex]);
         BarRenderer barRenderer = (BarRenderer) pointRenderer;
 
         barRenderer.setColor(new LinearGradientPaint(0f, 0f, 0f, 1f,
