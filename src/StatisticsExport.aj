@@ -46,94 +46,50 @@ public privileged aspect StatisticsExport {
 	 */
 	private void createContent(PDPageContentStream contentStream) throws IOException {
 		OverallStatistics data = gui.model.gameDB.getOverallStatistics();
-		
-		int anzahlSpieleGesamt = data.getAnzahlSpieleGesamt();
-        int anzahlSpieleGesamtGewonnen = data.getAnzahlSpieleGesamtGewonnen();
-        int teuerstesRufspiel = data.getTeuerstesRufspiel();
-        int teuerstesSolo = data.getTeuerstesSolo();
-        int teuerstesSoloTout = data.getTeuerstesSoloTout();
-        int teuerstesSoloSie = data.getTeuerstesSoloSie();
-        int anzahlRufspiele = data.getAnzahlRufspiele();
-        int anzahlSoli = data.getAnzahlSoli();
-        int anzahlSoliTout = data.getAnzahlSoliTout();
-        int anzahlSoliSie = data.getAnzahlSoliSie();
-        int anzahlSoliGesamt = data.getAnzahlSoliGesamt();
-        int anzahlGewonneneSoliGesamt = data.getAnzahlGewonneneSoliGesamt();
-        int anzahlGewonneneRufspiele = data.getAnzahlGewonneneRufspiele();
-        int anzahlGewonneneSoli = data.getAnzahlGewonneneSoli();
-        int anzahlGewonneneSoliTout = data.getAnzahlGewonneneSoliTout();
-        int anzahlGewonneneSoliSie = data.getAnzahlGewonneneSoliSie();
-        int anzahlWeiter = data.getAnzahlWeiter();
 
-        double sologesamtwin = (anzahlSoliGesamt) > 0 ? ((double) (anzahlGewonneneSoliGesamt) / (anzahlSoliGesamt))
-                : 0;
-        
         contentStream.moveTextPositionByAmount(50, 650);
-        contentStream.drawString("#Spiele (ohne weiter): "
-                + anzahlSpieleGesamt
-                + " (gewonnen: "
-                + String.format("%.2f",
-                        (anzahlSpieleGesamt > 0 ? anzahlSpieleGesamtGewonnen
-                                / ((double) anzahlSpieleGesamt) : 0) * 100)
-                + "%)");
+        contentStream.drawString("#Spiele (ohne weiter): " + data.getAnzahlSpieleGesamt()
+        		+ " (gewonnen: "
+        		+ String.format("%.2f", data.getGesamtWinPerc()) + "%)");
         
         contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("#Rufspiele: "
-                + anzahlRufspiele
-                + " (gewonnen: "
-                + String.format("%.2f",
-                        (anzahlRufspiele > 0 ? anzahlGewonneneRufspiele
-                                / ((double) anzahlRufspiele) : 0) * 100)
-                + "%)");
+        contentStream.drawString("#Rufspiele: " + data.getAnzahlRufspiele() + " (gewonnen: "
+        		+ String.format("%.2f", data.getRufspieleWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("          -> teuerstes Rufspiel: "
-                + teuerstesRufspiel);
+        contentStream.moveTextPositionByAmount(50, -20);
+        contentStream.drawString("-> teurstes Rufspiel: "
+        + data.getTeuerstesRufspiel());
         
-        contentStream.moveTextPositionByAmount(0, -20);
+        contentStream.moveTextPositionByAmount(-50, -20);
         contentStream.drawString("#Soli gesamt: "
-                + (anzahlSoli + anzahlSoliTout + anzahlSoliSie)
-                + " (gewonnen: "
-                + String.format("%.2f", sologesamtwin * 100)
-                + "%)");
+        		+ data.getAnzahlSoliGesamt() + " (gewonnen: "
+        		+ String.format("%.2f", data.getSoliGesamtWinPerc())
+        		+ "%)");
         
         contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("#Soli normal: "
-                + anzahlSoli
-                + " (gewonnen: "
-                + String.format("%.2f", (anzahlSoli > 0 ? anzahlGewonneneSoli
-                        / ((double) anzahlSoli) : 0) * 100)
-                + "%)");
+        contentStream.drawString("#Soli normal: " + data.getAnzahlSoli()
+        		+ " (gewonnen: "
+        		+ String.format("%.2f", data.getSoliNormalWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("            -> teuerstes Solo: "
-                + teuerstesSolo);
+        contentStream.moveTextPositionByAmount(50, -20);
+        contentStream.drawString("-> teurstes Solo: " + data.getTeuerstesSolo());
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("#Solo Tout: "
-                + anzahlSoliTout
-                + " (gewonnen: "
-                + String.format("%.2f",
-                        (anzahlSoliTout > 0 ? anzahlGewonneneSoliTout
-                                / ((double) anzahlSoliTout) : 0) * 100)
-                + "%)");
+        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.drawString("#Solo Tout: " + data.getAnzahlSoliTout()
+        		+ " (gewonnen: "
+        		+ String.format("%.2f", data.getSoliToutWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("          -> teuerstes Solo Tout: "
-                + teuerstesSoloTout);
+        contentStream.moveTextPositionByAmount(50, -20);
+        contentStream.drawString("-> teurstes Solo Tout: "
+        		+ data.getTeuerstesSoloTout());
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("#Solo Sie: "
-                + anzahlSoliSie
-                + " (gewonnen: "
-                + String.format("%.2f",
-                        (anzahlSoliSie > 0 ? anzahlGewonneneSoliSie
-                                / ((double) anzahlSoliSie) : 0) * 100) + "%)");
+        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.drawString("#Solo Sie: " + data.getAnzahlSoliSie());
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("         -> teuerstes Solo Sie: " + teuerstesSoloSie);
+        contentStream.moveTextPositionByAmount(50, -20);
+        contentStream.drawString("-> teurstes Solo Sie: " + data.getTeuerstesSoloSie());
         
-        contentStream.moveTextPositionByAmount(0, -20);
-        contentStream.drawString("#Weiter: " + anzahlWeiter);
+        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.drawString("#Weiter: " + data.getAnzahlWeiter());
 	}
 }
