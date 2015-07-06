@@ -46,8 +46,8 @@ public privileged aspect Stock {
     }
 
     /** when a new dataobject is created, set to value of last dataobject or 0 */
-    DataObject around(String player, String game, int gameVal, int valP1, int valP2, int valP3, int valP4, WIN winner)
-            : call (DataObject.new(String, String, int, int, int, int, int, WIN))
+    DataObject around(String player, Games game, int gameVal, int valP1, int valP2, int valP3, int valP4, WIN winner)
+            : call (DataObject.new(String, Games, int, int, int, int, int, WIN))
             && args (player, game, gameVal, valP1, valP2, valP3, valP4, winner) {
         DataObject obj = proceed(player, game, gameVal, valP1, valP2, valP3, valP4, winner);
         if (gui != null) {
