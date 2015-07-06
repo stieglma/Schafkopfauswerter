@@ -7,8 +7,6 @@ import java.awt.LinearGradientPaint;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import model.SystemValues.WIN;
-import model.db.DataObject;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.BarPlot;
 import de.erichseifert.gral.plots.PiePlot;
@@ -21,10 +19,9 @@ import de.erichseifert.gral.util.Insets2D;
 import de.erichseifert.gral.util.Location;
 import view.GUI;
 import view.UIUpdater;
-import model.db.GameData;
 
 public privileged aspect StatOverallGraph {
-    declare precedence : StatOverallGraph, StatOverallTxt;
+    declare precedence : Statistics, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
     private static JPanel panel = new JPanel();
@@ -82,12 +79,12 @@ public privileged aspect StatOverallGraph {
         while (wonGames.getRowCount() > 0) {
             wonGames.removeLast();
         }
-        wonGames.add(1, data.getAnzahlSpieleGesamtGewonnen(), "Gesamt");
-        wonGames.add(2, data.getAnzahlGewonneneRufspiele(), "Rufspiele");
-        wonGames.add(3, data.getAnzahlGewonneneSoliGesamt(), "Soli gesamt");
-        wonGames.add(4, data.getAnzahlGewonneneSoli(), "Soli normal");
-        wonGames.add(5, data.getAnzahlGewonneneSoliTout(), "Soli Tout");
-        wonGames.add(6, data.getAnzahlGewonneneSoliSie(), "Soli Sie");
+        wonGames.add(1, data.getGesamtWinPerc(), "Gesamt");
+        wonGames.add(2, data.getRufspieleWinPerc(), "Rufspiele");
+        wonGames.add(3, data.getSoliGesamtWinPerc(), "Soli gesamt");
+        wonGames.add(4, data.getSoliNormalWinPerc(), "Soli normal");
+        wonGames.add(5, data.getSoliToutWinPerc(), "Soli Tout");
+        wonGames.add(6, data.getSoliSieWinPerc(), "Soli Sie");
     }
 
     private static PiePlot createPlayedTypesPlot() {

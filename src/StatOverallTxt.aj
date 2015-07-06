@@ -41,7 +41,7 @@ public privileged aspect StatOverallTxt {
                 + "          -> teurstes Rufspiel: "
                 + data.getTeuerstesRufspiel() + "\n" + "#Soli gesamt: "
                 + data.getAnzahlSoliGesamt() + " (gewonnen: "
-                + String.format("%.2f", data.getAnzahlGewonneneSoliGesamt())
+                + String.format("%.2f", data.getSoliGesamtWinPerc())
                 + "%)\n" + "#Soli normal: " + data.getAnzahlSoli()
                 + " (gewonnen: "
                 + String.format("%.2f", data.getSoliNormalWinPerc()) + "%)\n"

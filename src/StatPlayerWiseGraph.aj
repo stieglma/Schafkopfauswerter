@@ -24,7 +24,7 @@ import view.UIUpdater;
 import model.db.GameData;
 
 public privileged aspect StatPlayerWiseGraph {
-    declare precedence : StatPlayerWiseGraph, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
+    declare precedence : Statistics, StatPlayerWiseGraph, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
     private static JPanel panel = new JPanel();
