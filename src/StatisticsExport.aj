@@ -27,12 +27,15 @@ public privileged aspect StatisticsExport {
 	 * Catch the call on {@link PDFReportListener.drawTable(PDDocument)} to get
 	 * the pdf creator object.
 	 * 
+	 * This method then creates the pages and writes the statistics to the pdf.
+	 * 
 	 * @param document
 	 * @throws IOException
 	 */
 	after(PDDocument document) returning() throws IOException
-    : call(* PDFReportListener.drawTable(PDDocument))
-    && args(document) {
+    		: call(* PDFReportListener.drawTable(PDDocument))
+    		&& args(document) {
+		// write overall statistics to pdf
 		PDPage page = new PDPage();
 		document.addPage(page);
 		PDPageContentStream contentStream = new PDPageContentStream(document,
@@ -50,6 +53,7 @@ public privileged aspect StatisticsExport {
 		contentStream.endText();
 		contentStream.close();
 
+		// write individual statistics to pdf
 		page = new PDPage();
 		document.addPage(page);
 		contentStream = new PDPageContentStream(document, page);
@@ -75,7 +79,8 @@ public privileged aspect StatisticsExport {
 	}
 
 	/**
-	 * Write statistics to given <code>contentStream</code> of a pdf page.
+	 * Write statistics to given <code>contentStream</code> of a pdf page. These
+	 * are the overall statistics.
 	 * 
 	 * @param contentStream
 	 *            The <code>contentStream</code> of the pdf page to write on.
@@ -133,6 +138,14 @@ public privileged aspect StatisticsExport {
 		contentStream.drawString("#Weiter: " + data.getAnzahlWeiter());
 	}
 
+	/**
+	 * Write the individual statistics for a given <code>player</code> to the
+	 * given <code>contentStream</code>.
+	 * 
+	 * @param contentStream
+	 * @param player
+	 * @throws IOException
+	 */
 	private void createIndividualContent(PDPageContentStream contentStream,
 			Players player) throws IOException {
 		contentStream.moveTextPositionByAmount(50, 650);
