@@ -11,6 +11,9 @@ import de.erichseifert.gral.io.plots.DrawableWriterFactory;
 
 public privileged aspect GraphExport {
 
+    /**
+     * Add graph to PDF
+     */
     after(PDDocument document) returning() throws IOException
     : execution (* PDFReportListener.drawTable(PDDocument)) 
     && args(document) {
