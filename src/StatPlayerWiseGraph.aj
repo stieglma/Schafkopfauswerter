@@ -149,7 +149,7 @@ public privileged aspect StatPlayerWiseGraph {
         int playerIndex = player.ordinal();
 
         // Create new bar plot
-        BarPlot plot = new BarPlot(wonGames);
+        BarPlot plot = new BarPlot(wonGames[playerIndex]);
 
         // Format plot
         plot.getTitle().setText("Gewonnene Spiele pro Spieltyp (in %)");
