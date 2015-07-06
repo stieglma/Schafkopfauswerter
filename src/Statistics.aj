@@ -21,3 +21,12 @@ public privileged aspect Statistics {
         StatisticsHelper.StatisticsPaneCreated(tabbedPane);
     }
 }
+
+/**
+ * This class contains a dummy method to enable the statistic subfeatures to
+ * get the JTabbedPane of the "Statistics" aspect.
+ */
+class StatisticsHelper {
+
+        public static void StatisticsPaneCreated(JTabbedPane tabbedPane) {}
+}

@@ -36,12 +36,14 @@ public privileged aspect RemoveLastGame {
         return false;
     }
 
+    /** add remove last game button */
     after() returning(JPanel panel): call(JPanel GUI.createButtonPane()) {
         JButton buttonRemoveLastGame = new JButton("letztes Spiel löschen");
         buttonRemoveLastGame.addActionListener(new RemoveLastGameListener());
         panel.add(buttonRemoveLastGame);
     }
 
+    /** catch execution of removelastgamelistener and remove the game + update ui */
     after() : execution(* RemoveLastGameListener.actionPerformed(*)) {
         gui.tabbedPane.setSelectedIndex(1);
         if (gui.model.removeLastGame()) {

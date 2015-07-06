@@ -60,53 +60,34 @@ public privileged aspect StatOverallGraph {
     }
 
     private static void updateData() {
-        StatsData data = gui.model.getGameData().getOverallStatisticsData();
+        OverallStatistics data = gui.model.getGameData().getOverallStatistics();
 
         while (playedTypes.getRowCount() > 0) {
             playedTypes.removeLast();
         }
-        playedTypes.add(data.anzahlRufspiele, "Rufspiele");
-        playedTypes.add(data.anzahlSolo, "Soli");
-        playedTypes.add(data.anzahlSoloTout, "Soli Tout");
-        playedTypes.add(data.anzahlSoloSie, "Soli Sie");
-        playedTypes.add(data.anzahlWeiter, "Weiter");
+        playedTypes.add(data.getAnzahlRufspiele(), "Rufspiele");
+        playedTypes.add(data.getAnzahlSoli(), "Soli");
+        playedTypes.add(data.getAnzahlSoliTout(), "Soli Tout");
+        playedTypes.add(data.getAnzahlSoliSie(), "Soli Sie");
+        playedTypes.add(data.getAnzahlWeiter(), "Weiter");
 
         while (mostExpsvGame.getRowCount() > 0) {
             mostExpsvGame.removeLast();
         }
-        mostExpsvGame.add(1, data.teuerstesRufspiel, "Rufspiel");
-        mostExpsvGame.add(2, data.teuerstesSolo, "Solo");
-        mostExpsvGame.add(3, data.teuerstesSoloTout, "Solo Tout");
-        mostExpsvGame.add(4, data.teuerstesSoloSie, "Solo Sie");
-
-        // percentage of won games by gametype
-        double gesamt = (data.anzahlSpieleGesamt > 0 ? data.anzahlSpieleGesamtGewonnen
-                / ((double) data.anzahlSpieleGesamt)
-                : 0) * 100;
-        double rufspiele = (data.anzahlRufspiele > 0 ? data.anzahlGewonneneRufspiele
-                / ((double) data.anzahlRufspiele)
-                : 0) * 100;
-        double soli_gesamt = ((data.anzahlSolo + data.anzahlSoloSie + data.anzahlSoloTout) > 0 ? ((data.anzahlGewonneneSoli
-                + data.anzahlGewonneneSoliTout + data.anzahlSoloSie) / 1.0 / (data.anzahlSolo
-                + data.anzahlSoloSie + data.anzahlSoloTout))
-                : 0) * 100;
-        double soli_normal = (data.anzahlSolo > 0 ? data.anzahlGewonneneSoli
-                / ((double) data.anzahlSolo) : 0) * 100;
-        double soli_tout = (data.anzahlSoloTout > 0 ? data.anzahlGewonneneSoliTout
-                / ((double) data.anzahlSoloTout)
-                : 0) * 100;
-        double soli_sie = (data.anzahlSoloSie > 0 ? data.anzahlSoloSie
-                / ((double) data.anzahlSoloSie) : 0) * 100;
+        mostExpsvGame.add(1, data.getTeuerstesRufspiel(), "Rufspiel");
+        mostExpsvGame.add(2, data.getTeuerstesSolo(), "Solo");
+        mostExpsvGame.add(3, data.getTeuerstesSoloTout(), "Solo Tout");
+        mostExpsvGame.add(4, data.getTeuerstesSoloSie(), "Solo Sie");
 
         while (wonGames.getRowCount() > 0) {
             wonGames.removeLast();
         }
-        wonGames.add(1, gesamt, "Gesamt");
-        wonGames.add(2, rufspiele, "R.Rufspiele");
-        wonGames.add(3, soli_gesamt, "Soli gesamt");
-        wonGames.add(4, soli_normal, "Soli normal");
-        wonGames.add(5, soli_tout, "Soli Tout");
-        wonGames.add(6, soli_sie, "Soli Sie");
+        wonGames.add(1, data.getAnzahlSpieleGesamtGewonnen(), "Gesamt");
+        wonGames.add(2, data.getAnzahlGewonneneRufspiele(), "Rufspiele");
+        wonGames.add(3, data.getAnzahlGewonneneSoliGesamt(), "Soli gesamt");
+        wonGames.add(4, data.getAnzahlGewonneneSoli(), "Soli normal");
+        wonGames.add(5, data.getAnzahlGewonneneSoliTout(), "Soli Tout");
+        wonGames.add(6, data.getAnzahlGewonneneSoliSie(), "Soli Sie");
     }
 
     private static PiePlot createPlayedTypesPlot() {
@@ -200,121 +181,5 @@ public privileged aspect StatOverallGraph {
         pointRenderer.setValueFont(Font.decode(null).deriveFont(Font.BOLD));
 
         return plot;
-    }
-
-    public StatsData GameData.getOverallStatisticsData() {
-        int anzahlSpieleGesamt = 0;
-        int anzahlSpieleGesamtGewonnen = 0;
-        int teuerstesRufspiel = 0;
-        int teuerstesSolo = 0;
-        int teuerstesSoloTout = 0;
-        int teuerstesSoloSie = 0;
-        int anzahlRufspiele = 0;
-        int anzahlSolo = 0;
-        int anzahlSoloTout = 0;
-        int anzahlSoloSie = 0;
-        int anzahlGewonneneRufspiele = 0;
-        int anzahlGewonneneSoli = 0;
-        int anzahlGewonneneSoliTout = 0;
-        int anzahlWeiter = 0;
-
-        for (DataObject obj : data) {
-            switch (obj.getGameKind()) {
-            case RUFSPIEL:
-                anzahlRufspiele++;
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneRufspiele++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesRufspiel) {
-                    teuerstesRufspiel = obj.getGameValue();
-                }
-                break;
-            case SOLO:
-                anzahlSolo++;
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneSoli++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesSolo) {
-                    teuerstesSolo = obj.getGameValue();
-                }
-                break;
-            case TOUT:
-                anzahlSpieleGesamt++;
-                if (obj.getGameWon() == WIN.PLAYER) {
-                    anzahlGewonneneSoliTout++;
-                    anzahlSpieleGesamtGewonnen++;
-                }
-                if (obj.getGameValue() > teuerstesSoloTout) {
-                    teuerstesSoloTout = obj.getGameValue();
-                }
-                anzahlSoloTout++;
-                break;
-            case SIE:
-                anzahlSpieleGesamt++;
-                anzahlSpieleGesamtGewonnen++;
-                anzahlSoloSie++;
-                if (obj.getGameValue() > teuerstesSoloSie) {
-                    teuerstesSoloSie = obj.getGameValue();
-                }
-                break;
-            case WEITER:
-                anzahlWeiter++;
-                break;
-            case NONE:
-                break; // nothing todo here
-            default:
-                break;
-            }
-        }
-
-        return new StatsData(anzahlSpieleGesamt, anzahlSpieleGesamtGewonnen,
-                teuerstesRufspiel, teuerstesSolo, teuerstesSoloTout,
-                teuerstesSoloSie, anzahlRufspiele, anzahlSolo, anzahlSoloTout,
-                anzahlSoloSie, anzahlGewonneneRufspiele, anzahlGewonneneSoli,
-                anzahlGewonneneSoliTout, anzahlWeiter);
-    }
-
-    private static class StatsData {
-        protected int anzahlSpieleGesamt = 0;
-        protected int anzahlSpieleGesamtGewonnen = 0;
-        protected int teuerstesRufspiel = 0;
-        protected int teuerstesSolo = 0;
-        protected int teuerstesSoloTout = 0;
-        protected int teuerstesSoloSie = 0;
-        protected int anzahlRufspiele = 0;
-        protected int anzahlSolo = 0;
-        protected int anzahlSoloTout = 0;
-        protected int anzahlSoloSie = 0;
-        protected int anzahlGewonneneRufspiele = 0;
-        protected int anzahlGewonneneSoli = 0;
-        protected int anzahlGewonneneSoliTout = 0;
-        protected int anzahlWeiter = 0;
-
-        public StatsData(int anzahlSpieleGesamt,
-                int anzahlSpieleGesamtGewonnen, int teuerstesRufspiel,
-                int teuerstesSolo, int teuerstesSoloTout, int teuerstesSoloSie,
-                int anzahlRufspiele, int anzahlSolo, int anzahlSoloTout,
-                int anzahlSoloSie, int anzahlGewonneneRufspiele,
-                int anzahlGewonneneSoli, int anzahlGewonneneSoliTout,
-                int anzahlWeiter) {
-            this.anzahlSpieleGesamt = anzahlSpieleGesamt;
-            this.anzahlSpieleGesamtGewonnen = anzahlSpieleGesamtGewonnen;
-            this.teuerstesRufspiel = teuerstesRufspiel;
-            this.teuerstesSolo = teuerstesSolo;
-            this.teuerstesSoloTout = teuerstesSoloTout;
-            this.teuerstesSoloSie = teuerstesSoloSie;
-            this.anzahlRufspiele = anzahlRufspiele;
-            this.anzahlSolo = anzahlSolo;
-            this.anzahlSoloTout = anzahlSoloTout;
-            this.anzahlSoloSie = anzahlSoloSie;
-            this.anzahlGewonneneRufspiele = anzahlGewonneneRufspiele;
-            this.anzahlGewonneneSoli = anzahlGewonneneSoli;
-            this.anzahlGewonneneSoliTout = anzahlGewonneneSoliTout;
-            this.anzahlWeiter = anzahlWeiter;
-        }
     }
 }
