@@ -12,7 +12,7 @@
 				</or>
 				<feature name="Import"/>
 				<or name="Statistics">
-					<or abstract="true" mandatory="true" name="OverallStats">
+					<or mandatory="true" name="OverallStats">
 						<feature mandatory="true" name="StatOverallTxt"/>
 						<feature mandatory="true" name="StatOverallGraph"/>
 					</or>
