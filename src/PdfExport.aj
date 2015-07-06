@@ -78,54 +78,68 @@ public privileged aspect PdfExport {
     void around(PDDocument document) throws IOException
           : execution (* PDFReportListener.drawTable(PDDocument)) 
           && args(document) {
-        PDPage page = new PDPage();
-        document.addPage(page);
-        PDPageContentStream contentStream = new PDPageContentStream(document, page);
-        float y =750f;
-        float margin =60f;
+
+
         String[][] content = ((SchafkopfTableModel) gui.table.getModel()).asTextArray();
 
-        final int rows = content.length;
-        final int cols = content[0].length;
-        final float rowHeight = 20f;
-        final float tableWidth = page.findMediaBox().getWidth()-(2*margin);
-        final float tableHeight = rowHeight * rows;
-        final float colWidth = tableWidth/(float)cols;
-        final float cellMargin=5f;
+        // we have inches in us letter (8.5x11) therefore calculate correct width in points here
+        // 1 pt = 1/72 inch
+        final int height = 11 * 72;
+        final int width = (int) (8.5* 72);
+        // some values for drawing the table
+        final int margin = 50;
+        final int rowHeight = 20;
+        final int maxRowsPerPage = (int) (height - 2*margin) / rowHeight;
+        final int tableWidth = width - (2*margin);
+        final int cellMargin=5;
 
-        // TODO multisite tables
-        //draw the rows
-        float nexty = y ;
-        for (int i = 0; i <= rows; i++) {
-            contentStream.drawLine(margin,nexty,margin+tableWidth,nexty);
-            nexty-= rowHeight;
-        }
-     
-        //draw the columns
-        float nextx = margin;
-        for (int i = 0; i <= cols; i++) {
-            contentStream.drawLine(nextx,y,nextx,y-tableHeight);
-            nextx += colWidth;
-        }
-     
-        //now add the text
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD,10);
-     
-        float textx = margin+cellMargin;
-        float texty = y-15;
-        for(int i = 0; i < content.length; i++){
-            for(int j = 0 ; j < content[i].length; j++){
-                String text = content[i][j];
-                contentStream.beginText();
-                contentStream.moveTextPositionByAmount(textx,texty);
-                contentStream.drawString(text);
-                contentStream.endText();
-                textx += colWidth;
+        int rowsToBeDone = content.length;
+        int actRow = 0;
+        final int cols = content[0].length;
+        final float colWidth = tableWidth/(float)cols;
+
+        //draw the table
+        do {
+            // create initial page
+            PDPage page = new PDPage();
+            document.addPage(page);
+            PDPageContentStream contentStream = new PDPageContentStream(document, page);
+            final float tableHeight = rowHeight * (Math.min(rowsToBeDone, maxRowsPerPage));
+            float y = height - margin;
+
+            // draw table borders
+            float nexty = y;
+            for (int i = 0; i <= Math.min(rowsToBeDone, maxRowsPerPage); i++) {
+                contentStream.drawLine(margin,nexty,margin+tableWidth,nexty);
+                nexty-= rowHeight;
             }
-            texty-=rowHeight;
-            textx = margin+cellMargin;
-        }
-        contentStream.close();
+            float nextx = margin;
+            for (int i = 0; i <= cols; i++) {
+                contentStream.drawLine(nextx,y,nextx,y-tableHeight);
+                nextx += colWidth;
+            }
+
+          //now add the text
+            contentStream.setFont(PDType1Font.HELVETICA_BOLD,10);
+            float textx = margin+cellMargin;
+            float texty = y-15;
+            for(int i = actRow; i < Math.min(rowsToBeDone, maxRowsPerPage)+actRow; i++){
+                for(int j = 0 ; j < cols; j++){
+                    contentStream.beginText();
+                    contentStream.moveTextPositionByAmount(textx,texty);
+                    contentStream.drawString(content[i][j]);
+                    contentStream.endText();
+                    textx += colWidth;
+                }
+                texty-=rowHeight;
+                textx = margin+cellMargin;
+            }
+            contentStream.close();
+
+            // reduce number of rows that still have to be done
+            rowsToBeDone -= maxRowsPerPage;
+            actRow += maxRowsPerPage;
+        } while (rowsToBeDone > 0);
     }
 }
 
