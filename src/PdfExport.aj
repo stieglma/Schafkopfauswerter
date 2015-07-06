@@ -23,6 +23,7 @@ import view.SchafkopfTableModel;
 
 public privileged aspect PdfExport {
 
+    /** This precendence makes the order of the items in the file menu sure */
     declare precedence : Import, HtmlExport, PdfExport; 
     private GUI gui;
 
