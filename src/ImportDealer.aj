@@ -2,6 +2,7 @@ import view.GUI;
 
 
 public privileged aspect ImportDealer {
+    /** Import has to happen before ImportDealer */
     declare precedence : ImportDealer, Import;
 
     private GUI gui;
