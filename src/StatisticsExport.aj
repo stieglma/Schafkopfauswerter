@@ -8,8 +8,9 @@ import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import view.GUI;
 
 public privileged aspect StatisticsExport {
-	
-	private GUI gui;
+
+    declare precedence: StatisticsExport, GraphExport, PdfExport;
+    private GUI gui;
 
     /**
      * catch constructor call, so that we have the correct gui, to refer to everywhere
@@ -25,18 +26,19 @@ public privileged aspect StatisticsExport {
      * @param document
      * @throws IOException
      */
-	void around(PDDocument document) throws IOException
-		: execution (* PDFReportListener.drawTable(PDDocument))
-		&& args(document) {
-		PDPage page = new PDPage();
-		document.addPage(page);
-		PDPageContentStream contentStream = new PDPageContentStream(document, page);
-		contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
-		contentStream.beginText();
-		createContent(contentStream);
-		contentStream.endText();
-		contentStream.close();
-	}
+    after(PDDocument document) returning() throws IOException
+    : call(* PDFReportListener.drawTable(PDDocument))
+    && args(document) {
+        PDPage page = new PDPage();
+        document.addPage(page);
+        PDPageContentStream contentStream = new PDPageContentStream(document,
+                page);
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+        contentStream.beginText();
+        createContent(contentStream);
+        contentStream.endText();
+        contentStream.close();
+    }
 	
 	/**
 	 * Write statistics to given <code>contentStream</code> of a pdf page.

@@ -24,7 +24,7 @@ import view.SchafkopfTableModel;
 public privileged aspect PdfExport {
 
     /** This precendence makes the order of the items in the file menu sure */
-    declare precedence : Import, HtmlExport, PdfExport; 
+    declare precedence : Import, HtmlExport, PdfExport;
     private GUI gui;
 
     /**
@@ -74,12 +74,11 @@ public privileged aspect PdfExport {
     /**
      * generate pdf report (execution of PDFReportListener is suppressed, this
      * is just an empty method, to be able to create this pointcut
+     * @throws IOException 
      */
-    void around(PDDocument document) throws IOException
-          : execution (* PDFReportListener.drawTable(PDDocument)) 
-          && args(document) {
-
-
+    after(PDDocument document) returning() throws IOException
+    : call(* PDFReportListener.drawTable(PDDocument))
+    && args(document) {
         String[][] content = ((SchafkopfTableModel) gui.table.getModel()).asTextArray();
 
         // we have inches in us letter (8.5x11) therefore calculate correct width in points here
