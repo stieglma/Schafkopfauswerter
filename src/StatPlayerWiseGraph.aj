@@ -1,33 +1,26 @@
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.LinearGradientPaint;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 
 import model.SystemValues.Games;
 import model.SystemValues.Players;
+import view.GUI;
+import view.UIUpdater;
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.BarPlot;
-import de.erichseifert.gral.plots.PiePlot;
-import de.erichseifert.gral.ui.InteractivePanel;
 import de.erichseifert.gral.plots.BarPlot.BarRenderer;
+import de.erichseifert.gral.plots.PiePlot;
 import de.erichseifert.gral.plots.PiePlot.PieSliceRenderer;
 import de.erichseifert.gral.plots.points.PointRenderer;
+import de.erichseifert.gral.ui.InteractivePanel;
 import de.erichseifert.gral.util.GraphicsUtils;
 import de.erichseifert.gral.util.Insets2D;
 import de.erichseifert.gral.util.Location;
-import view.GUI;
-import view.UIUpdater;
-import model.db.GameData;
 
 public privileged aspect StatPlayerWiseGraph {
     /**
@@ -37,10 +30,8 @@ public privileged aspect StatPlayerWiseGraph {
     declare precedence : Statistics, StatPlayerWiseGraph, StatPlayerWiseTxt, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
-    private static JPanel containerPanel = new JPanel();
-    private static JPanel buttonPanel = new JPanel();
-    private static JPanel[] graphPanels = new JPanel[4];
 
+    private static final JTabbedPane playersTabs = new JTabbedPane();
     private static final Color COLOR1 = Color.GREEN;
 
     private static DataTable playedTypes[] = new DataTable[4];
@@ -50,95 +41,38 @@ public privileged aspect StatPlayerWiseGraph {
         StatPlayerWiseGraph.gui = gui;
     }
 
+    @SuppressWarnings("unchecked")
     after(JTabbedPane tabbedPane): 
                         execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
                         && args(tabbedPane) {
-        for (int i = 0; i < graphPanels.length; i++) {
-            graphPanels[i] = new JPanel();
-            playedTypes[i] = new DataTable(Integer.class, String.class);
-            wonGames[i] = new DataTable(Integer.class, Double.class,
-                    String.class);
 
+        for (int i = 0; i < Players.values().length; i++) {
+            playedTypes[i] = new DataTable(Integer.class, String.class);
+            wonGames[i] = new DataTable(Integer.class, Double.class,String.class);
         }
 
         updateData();
-
-        JRadioButton player1CheckBox = new JRadioButton("Spieler 1");
-        JRadioButton player2CheckBox = new JRadioButton("Spieler 2");
-        JRadioButton player3CheckBox = new JRadioButton("Spieler 3");
-        JRadioButton player4CheckBox = new JRadioButton("Spieler 4");
-
-        player1CheckBox.setSelected(true);
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(player1CheckBox);
-        buttonGroup.add(player2CheckBox);
-        buttonGroup.add(player3CheckBox);
-        buttonGroup.add(player4CheckBox);
-
-        player1CheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                containerPanel.remove(1);
-                containerPanel.add(graphPanels[0], BorderLayout.CENTER, 1);
-                containerPanel.repaint();
-            }
-        });
-        player2CheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                containerPanel.remove(1);
-                containerPanel.add(graphPanels[1], BorderLayout.CENTER, 1);
-                containerPanel.repaint();
-            }
-        });
-        player3CheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                containerPanel.remove(1);
-                containerPanel.add(graphPanels[2], BorderLayout.CENTER, 1);
-                containerPanel.repaint();
-            }
-        });
-        player4CheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                containerPanel.remove(1);
-                containerPanel.add(graphPanels[3], BorderLayout.CENTER, 1);
-                containerPanel.repaint();
-            }
-        });
-
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(player1CheckBox);
-        buttonPanel.add(player2CheckBox);
-        buttonPanel.add(player3CheckBox);
-        buttonPanel.add(player4CheckBox);
-
-        for (JPanel graphPanel : graphPanels) {
-            graphPanel.setLayout(new GridLayout(2, 2));
-        }
-
+;
         for (Players player : Players.values()) {
-            int i = player.ordinal();
-            graphPanels[i].add(new InteractivePanel(
-                    createWonGamesBarPlot(player)));
-            graphPanels[i].add(new InteractivePanel(
-                    createPlayedTypesPlot(player)));
+            playersTabs.addTab(player.toString(), createPlayersPanel(player));
         }
+        tabbedPane.addTab("Einzelstatistiken", playersTabs);
+    }
 
-        containerPanel.setLayout(new BorderLayout());
-        containerPanel.add(buttonPanel, BorderLayout.NORTH, 0);
-        containerPanel.add(graphPanels[0], BorderLayout.CENTER, 1);
+    private JPanel createPlayersPanel(Players player) {
+        JPanel containerPanel = new JPanel();
+        containerPanel.setLayout(new GridLayout(2, 2));
 
-        tabbedPane.addTab("PlayerWiseGrafik", containerPanel);
+        containerPanel.add(new InteractivePanel(createWonGamesBarPlot(player)));
+        containerPanel.add(new InteractivePanel(createPlayedTypesPlot(player)));
+        return containerPanel;
     }
 
     after() : execution(* UIUpdater.run()) {
         updateData();
+        for (Players player : Players.values()) {
+            playersTabs.setTitleAt(player.ordinal(), player.toString());
+        }
     }
 
     private static void updateData() {
