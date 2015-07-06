@@ -55,6 +55,9 @@ public privileged aspect Graph {
         playersGraphs[3].setName(PLAYER_4.toString());
     }
 
+    /**
+     * create the plot tath is shown in the Grafik tab
+     */
     private static XYPlot createPlot() {
         XYPlot plot = new XYPlot(playersGraphs[0], playersGraphs[1], playersGraphs[2], playersGraphs[3]);
         plot.setLegendVisible(true);
