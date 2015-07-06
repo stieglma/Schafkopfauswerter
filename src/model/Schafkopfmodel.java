@@ -98,7 +98,10 @@ public class Schafkopfmodel {
     }
 
     public void addSoloSie(Players one, int gedoppelt) {
-        addSoloTout(one, true, 8, SystemValues.Spritzen.NORMAL, gedoppelt);
+        int price = (int) ((SystemValues.solo + 8
+                * SystemValues.schneider) * Math.pow(2, gedoppelt + 1));
+
+        addSoloHelp(price, one, true, Games.SIE);
     }
 
     public void addWeiter() {
