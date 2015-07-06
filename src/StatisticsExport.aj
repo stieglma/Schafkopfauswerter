@@ -33,9 +33,16 @@ public privileged aspect StatisticsExport {
         document.addPage(page);
         PDPageContentStream contentStream = new PDPageContentStream(document,
                 page);
-        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+        
         contentStream.beginText();
-        createContent(contentStream);
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 15);
+        contentStream.moveTextPositionByAmount(100, 680);
+        contentStream.drawString("Statistik ueber das gesamte Spiel");
+        contentStream.endText();
+        
+        contentStream.beginText();
+        contentStream.setFont(PDType1Font.HELVETICA_BOLD, 10);
+        createOverallContent(contentStream);
         contentStream.endText();
         contentStream.close();
     }
@@ -46,7 +53,7 @@ public privileged aspect StatisticsExport {
 	 * @param contentStream The <code>contentStream</code> of the pdf page to write on.
 	 * @throws IOException
 	 */
-	private void createContent(PDPageContentStream contentStream) throws IOException {
+	private void createOverallContent(PDPageContentStream contentStream) throws IOException {
 		OverallStatistics data = gui.model.gameDB.getOverallStatistics();
 
         contentStream.moveTextPositionByAmount(50, 650);
@@ -54,44 +61,44 @@ public privileged aspect StatisticsExport {
         		+ " (gewonnen: "
         		+ String.format("%.2f", data.getGesamtWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(0, -20);
+        contentStream.moveTextPositionByAmount(0, -16);
         contentStream.drawString("#Rufspiele: " + data.getAnzahlRufspiele() + " (gewonnen: "
         		+ String.format("%.2f", data.getRufspieleWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(50, -20);
-        contentStream.drawString("-> teurstes Rufspiel: "
+        contentStream.moveTextPositionByAmount(50, -16);
+        contentStream.drawString("-> teuerstes Rufspiel: "
         + data.getTeuerstesRufspiel());
         
-        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.moveTextPositionByAmount(-50, -16);
         contentStream.drawString("#Soli gesamt: "
         		+ data.getAnzahlSoliGesamt() + " (gewonnen: "
         		+ String.format("%.2f", data.getSoliGesamtWinPerc())
         		+ "%)");
         
-        contentStream.moveTextPositionByAmount(0, -20);
+        contentStream.moveTextPositionByAmount(0, -16);
         contentStream.drawString("#Soli normal: " + data.getAnzahlSoli()
         		+ " (gewonnen: "
         		+ String.format("%.2f", data.getSoliNormalWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(50, -20);
-        contentStream.drawString("-> teurstes Solo: " + data.getTeuerstesSolo());
+        contentStream.moveTextPositionByAmount(50, -16);
+        contentStream.drawString("-> teuerstes Solo: " + data.getTeuerstesSolo());
         
-        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.moveTextPositionByAmount(-50, -16);
         contentStream.drawString("#Solo Tout: " + data.getAnzahlSoliTout()
         		+ " (gewonnen: "
         		+ String.format("%.2f", data.getSoliToutWinPerc()) + "%)");
         
-        contentStream.moveTextPositionByAmount(50, -20);
-        contentStream.drawString("-> teurstes Solo Tout: "
+        contentStream.moveTextPositionByAmount(50, -16);
+        contentStream.drawString("-> teuerstes Solo Tout: "
         		+ data.getTeuerstesSoloTout());
         
-        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.moveTextPositionByAmount(-50, -16);
         contentStream.drawString("#Solo Sie: " + data.getAnzahlSoliSie());
         
-        contentStream.moveTextPositionByAmount(50, -20);
-        contentStream.drawString("-> teurstes Solo Sie: " + data.getTeuerstesSoloSie());
+        contentStream.moveTextPositionByAmount(50, -16);
+        contentStream.drawString("-> teuerstes Solo Sie: " + data.getTeuerstesSoloSie());
         
-        contentStream.moveTextPositionByAmount(-50, -20);
+        contentStream.moveTextPositionByAmount(-50, -16);
         contentStream.drawString("#Weiter: " + data.getAnzahlWeiter());
 	}
 }
