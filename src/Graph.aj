@@ -64,8 +64,8 @@ public privileged aspect Graph {
         plot.getLegend().setOrientation(Orientation.HORIZONTAL);
         plot.getLegend().setAlignmentY(1.0);
 
-        plot.getAxisRenderer(XYPlot.AXIS_X).setLabel("Geld");
-        plot.getAxisRenderer(XYPlot.AXIS_Y).setLabel("Spielanazahl");
+        plot.getAxisRenderer(XYPlot.AXIS_X).setLabel("Spielanzahl");
+        plot.getAxisRenderer(XYPlot.AXIS_Y).setLabel("Geld");
 
         plot.setLineRenderer(playersGraphs[0], new DefaultLineRenderer2D());
         plot.setLineRenderer(playersGraphs[1], new DefaultLineRenderer2D());
