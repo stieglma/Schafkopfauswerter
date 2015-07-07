@@ -36,7 +36,11 @@ public privileged aspect Stock {
     /** catch constructor call and set stock to appropriate value */
     DataObject around(String[] values) : call ( DataObject.new(String[])) && args(values){
         DataObject obj = proceed(values);
-        obj.stock = Integer.parseInt(values[9]);
+        if (values.length == 10) {
+            obj.stock = Integer.parseInt(values[9]);
+        } else {
+            obj.stock = 0;
+        }
         return obj;
     }
  
@@ -182,8 +186,10 @@ public privileged aspect Stock {
         if (proceed(firstLine, secondLine)) {
             if (secondLine.contains("Stock")) {
                 useStock = secondLine.replaceAll("</p>", "").split("<p>")[3].replaceFirst("Stock: ", "").equals("ja");
-                return true;
+            } else {
+                useStock = false;
             }
+            return true;
         } 
         return false;
     }
