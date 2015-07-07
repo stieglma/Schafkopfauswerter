@@ -6,7 +6,10 @@
 				<or abstract="true" name="Export">
 					<and mandatory="true" name="PdfExport">
 						<feature name="GraphExport"/>
-						<feature name="StatisticsExport"/>
+						<or abstract="true" name="StatisticsExport">
+							<feature mandatory="true" name="StatisticsPlayerWiseExport"/>
+							<feature mandatory="true" name="StatisticsGlobalExport"/>
+						</or>
 					</and>
 					<feature mandatory="true" name="HtmlExport"/>
 				</or>
@@ -120,6 +123,30 @@
 							<var>Import</var>
 							<var>ShowDealer</var>
 						</conj>
+					</imp>
+				</conj>
+			</rule>
+			<rule>
+				<conj>
+					<imp>
+						<var>StatisticsPlayerWiseExport</var>
+						<var>PlayerWiseStats</var>
+					</imp>
+					<imp>
+						<var>PlayerWiseStats</var>
+						<var>StatisticsPlayerWiseExport</var>
+					</imp>
+				</conj>
+			</rule>
+			<rule>
+				<conj>
+					<imp>
+						<var>StatisticsGlobalExport</var>
+						<var>OverallStats</var>
+					</imp>
+					<imp>
+						<var>OverallStats</var>
+						<var>StatisticsGlobalExport</var>
 					</imp>
 				</conj>
 			</rule>
