@@ -52,7 +52,7 @@ public privileged aspect StatOverallGraph {
         panel.add(new InteractivePanel(createWonGamesBarPlot()));
         panel.add(new InteractivePanel(createPlayedTypesPlot()));
 
-        tabbedPane.addTab("OverallGrafik", panel);
+        tabbedPane.addTab("Gesamtstatistiken (Grafik)", panel);
     }
 
     after() : execution(* UIUpdater.run()) {

@@ -23,7 +23,7 @@ public privileged aspect StatOverallTxt {
         statText.setEditable(false);
         panel.setLayout(new GridLayout(0, 1));
         panel.add(statText);
-        ((JTabbedPane) tabbedPane).addTab("OverallText", panel);
+        ((JTabbedPane) tabbedPane).addTab("Gesamtstatistiken", panel);
     }
 
     after() : execution(* UIUpdater.run()) {

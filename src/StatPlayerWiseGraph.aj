@@ -45,7 +45,6 @@ public privileged aspect StatPlayerWiseGraph {
     after(JTabbedPane tabbedPane): 
                         execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
                         && args(tabbedPane) {
-
         for (int i = 0; i < Players.values().length; i++) {
             playedTypes[i] = new DataTable(Integer.class, String.class);
             wonGames[i] = new DataTable(Integer.class, Double.class,String.class);
@@ -54,12 +53,12 @@ public privileged aspect StatPlayerWiseGraph {
         for (Players player : Players.values()) {
             playersTabs.addTab(player.toString(), createPlayersPanel(player));
         }
-        tabbedPane.addTab("Einzelstatistiken", playersTabs);
+        tabbedPane.addTab("Einzelstatistiken (Grafik)", playersTabs);
     }
 
     private JPanel createPlayersPanel(Players player) {
         JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new GridLayout(2, 2));
+        containerPanel.setLayout(new GridLayout(1, 2));
 
         containerPanel.add(new InteractivePanel(createWonGamesBarPlot(player)));
         containerPanel.add(new InteractivePanel(createPlayedTypesPlot(player)));
