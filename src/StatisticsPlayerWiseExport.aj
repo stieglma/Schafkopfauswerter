@@ -43,7 +43,7 @@ public privileged aspect StatisticsPlayerWiseExport {
 		contentStream.beginText();
 		contentStream.setFont(PDType1Font.HELVETICA_BOLD, 15);
 		contentStream.moveTextPositionByAmount(100, 680);
-		contentStream.drawString("Statistik fuer jeden einzelnen Spieler");
+		contentStream.drawString("Statistik für jeden einzelnen Spieler");
 		contentStream.endText();
 
 		for (int i = 0; i < Players.values().length; ++i) {

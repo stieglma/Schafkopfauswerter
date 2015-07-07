@@ -39,7 +39,7 @@ public privileged aspect StatisticsGlobalExport {
 		contentStream.beginText();
 		contentStream.setFont(PDType1Font.HELVETICA_BOLD, 15);
 		contentStream.moveTextPositionByAmount(100, 680);
-		contentStream.drawString("Statistik ueber das gesamte Spiel");
+		contentStream.drawString("Statistik über das gesamte Spiel");
 		contentStream.endText();
 
 		contentStream.beginText();

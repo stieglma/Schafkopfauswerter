@@ -27,7 +27,6 @@ public privileged aspect StatOverallGraph {
     declare precedence : Statistics, StatOverallGraph, StatOverallTxt;
 
     private static GUI gui;
-    private static JPanel panel = new JPanel();
 
     private static final Color COLOR1 = Color.GREEN;
 
@@ -45,14 +44,23 @@ public privileged aspect StatOverallGraph {
     after(JTabbedPane tabbedPane): 
 			execution(public static void StatisticsHelper.StatisticsPaneCreated(JTabbedPane))
 			&& args(tabbedPane) {
-        panel.setLayout(new GridLayout(2, 2));
-
+        JPanel masterPanel = new JPanel();
+        JPanel leftPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
+        
+        masterPanel.setLayout(new GridLayout(1, 2));
+        leftPanel.setLayout(new GridLayout(2, 1));
+        rightPanel.setLayout(new GridLayout(1, 1));
+        
+        masterPanel.add(leftPanel);
+        masterPanel.add(rightPanel);
+        
         updateData();
-        panel.add(new InteractivePanel(createExpGameBarPlot()));
-        panel.add(new InteractivePanel(createWonGamesBarPlot()));
-        panel.add(new InteractivePanel(createPlayedTypesPlot()));
+        leftPanel.add(new InteractivePanel(createExpGameBarPlot()));
+        leftPanel.add(new InteractivePanel(createWonGamesBarPlot()));
+        rightPanel.add(new InteractivePanel(createPlayedTypesPlot()));
 
-        tabbedPane.addTab("Gesamtstatistiken (Grafik)", panel);
+        tabbedPane.addTab("Gesamtstatistiken (Grafik)", masterPanel);
     }
 
     after() : execution(* UIUpdater.run()) {
