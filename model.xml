@@ -15,14 +15,14 @@
 				</or>
 				<feature name="Import"/>
 				<or name="Statistics">
-					<or mandatory="true" name="OverallStats">
-						<feature mandatory="true" name="StatOverallTxt"/>
-						<feature mandatory="true" name="StatOverallGraph"/>
-					</or>
-					<or mandatory="true" name="PlayerWiseStats">
-						<feature mandatory="true" name="StatPlayerWiseTxt"/>
-						<feature mandatory="true" name="StatPlayerWiseGraph"/>
-					</or>
+					<and mandatory="true" name="OverallStats">
+						<feature name="StatOverallTxt"/>
+						<feature name="StatOverallGraph"/>
+					</and>
+					<and mandatory="true" name="PlayerWiseStats">
+						<feature name="StatPlayerWiseTxt"/>
+						<feature name="StatPlayerWiseGraph"/>
+					</and>
 				</or>
 				<and name="Graph">
 					<feature name="ImportedGraph"/>
@@ -58,42 +58,6 @@
 				<conj>
 					<imp>
 						<conj>
-							<var>PdfExport</var>
-							<var>Graph</var>
-						</conj>
-						<var>GraphExport</var>
-					</imp>
-					<imp>
-						<var>GraphExport</var>
-						<conj>
-							<var>PdfExport</var>
-							<var>Graph</var>
-						</conj>
-					</imp>
-				</conj>
-			</rule>
-			<rule>
-				<conj>
-					<imp>
-						<conj>
-							<var>PdfExport</var>
-							<var>Statistics</var>
-						</conj>
-						<var>StatisticsExport</var>
-					</imp>
-					<imp>
-						<var>StatisticsExport</var>
-						<conj>
-							<var>PdfExport</var>
-							<var>Statistics</var>
-						</conj>
-					</imp>
-				</conj>
-			</rule>
-			<rule>
-				<conj>
-					<imp>
-						<conj>
 							<var>Import</var>
 							<var>Graph</var>
 						</conj>
@@ -127,28 +91,50 @@
 				</conj>
 			</rule>
 			<rule>
-				<conj>
-					<imp>
-						<var>StatisticsPlayerWiseExport</var>
-						<var>PlayerWiseStats</var>
-					</imp>
-					<imp>
-						<var>PlayerWiseStats</var>
-						<var>StatisticsPlayerWiseExport</var>
-					</imp>
-				</conj>
+				<imp>
+					<var>StatisticsPlayerWiseExport</var>
+					<var>PlayerWiseStats</var>
+				</imp>
 			</rule>
 			<rule>
-				<conj>
-					<imp>
-						<var>StatisticsGlobalExport</var>
+				<imp>
+					<var>StatisticsGlobalExport</var>
+					<var>OverallStats</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<var>GraphExport</var>
+					<var>Graph</var>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
+						<var>PlayerWiseStats</var>
+						<not>
+							<var>StatisticsPlayerWiseExport</var>
+						</not>
+					</conj>
+					<disj>
+						<var>StatPlayerWiseTxt</var>
+						<var>StatPlayerWiseGraph</var>
+					</disj>
+				</imp>
+			</rule>
+			<rule>
+				<imp>
+					<conj>
 						<var>OverallStats</var>
-					</imp>
-					<imp>
-						<var>OverallStats</var>
-						<var>StatisticsGlobalExport</var>
-					</imp>
-				</conj>
+						<not>
+							<var>StatisticsGlobalExport</var>
+						</not>
+					</conj>
+					<disj>
+						<var>StatOverallTxt</var>
+						<var>StatOverallGraph</var>
+					</disj>
+				</imp>
 			</rule>
 		</constraints>
 		<calculations Auto="true" Constraints="true" Features="true" Redundant="true" Tautology="true"/>
