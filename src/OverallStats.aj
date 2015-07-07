@@ -20,7 +20,7 @@ public privileged aspect OverallStats {
         int anzahlGewonneneSoli = 0;
         int anzahlGewonneneSoliTout = 0;
         int anzahlGewonneneSoliSie = 0;
-        int anzahlWeiter = -1;
+        int anzahlWeiter = 0;
         double gesamtWinPerc = 0.0;
         double rufspieleWinPerc = 0.0;
         double soliGesamtWinPerc = 0.0;
