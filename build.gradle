@@ -1,0 +1,59 @@
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+mainClassName = 'me.stieglmaier.schafkopfAuswerter.main.Schafkopfauswerter'
+
+repositories {
+    maven {
+        url "http://mvn.erichseifert.de/maven2"
+    }
+    mavenCentral()
+}
+
+buildscript {
+    repositories {
+        maven {
+            url "https://maven.eveoh.nl/content/repositories/releases"
+        }
+    }
+
+    dependencies {
+        classpath "nl.eveoh:gradle-aspectj:1.5"
+    }
+}
+
+project.ext {
+    aspectjVersion = '1.8.6'
+}
+
+apply plugin: 'aspectj'
+
+dependencies {
+    compile configuration: "runtime", group: "de.erichseifert.gral", name: "gral-core", version: "0.10"
+    compile configuration: "runtime", group: "org.apache.pdfbox", name:"pdfbox", version:"1.8.9"
+}
+
+sourceCompatibility = 1.7
+version = '0.1'
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Schafkopfauswerter',
+                   'Implementation-Version': version,
+                   'Main-Class': 'me.stieglmaier.schafkopfAuswerter.main.Schafkopfauswerter'
+    }
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Schafkopfauswerter',
+                   'Implementation-Version': version,
+                   'Main-Class': 'me.stieglmaier.schafkopfAuswerter.main.Schafkopfauswerter'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
