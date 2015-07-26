@@ -1,0 +1,26 @@
+# Lists all features from the model with manual (first digit) and automatic (second digit) selection
+# 0 = deselected, 1 = selected, 2 = undefined
+21Schafkopfauswerter
+11Base
+11Export
+11PdfExport
+12GraphExport
+11StatisticsExport
+12StatisticsPlayerWiseExport
+12StatisticsGlobalExport
+12HtmlExport
+12Import
+21Statistics
+21OverallStats
+12StatOverallTxt
+12StatOverallGraph
+21PlayerWiseStats
+12StatPlayerWiseTxt
+12StatPlayerWiseGraph
+21Graph
+21ImportedGraph
+12Stock
+11ShowDealer
+12RemoveLastDealer
+21ImportDealer
+21RemoveLastGame
