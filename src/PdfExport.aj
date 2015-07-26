@@ -16,10 +16,10 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import model.db.DataObject;
-import model.db.GameData;
-import view.GUI;
-import view.SchafkopfTableModel;
+import me.stieglmaier.schafkopfAuswerter.model.db.DataObject;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.SchafkopfTableModel;
 
 public privileged aspect PdfExport {
 

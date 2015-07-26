@@ -1,9 +1,9 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import javax.swing.table.AbstractTableModel;
 
-import model.SystemValues;
-import model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
 
 public class SchafkopfTableModel extends AbstractTableModel {
 

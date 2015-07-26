@@ -4,8 +4,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 
-import view.GUI;
-import view.UIUpdater;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.UIUpdater;
 
 public privileged aspect StatOverallTxt {
 

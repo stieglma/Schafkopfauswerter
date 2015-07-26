@@ -13,11 +13,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import model.SystemValues;
-import model.db.DataObject;
-import model.db.GameData;
-import view.GUI;
-import view.SchafkopfTableModel;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues;
+import me.stieglmaier.schafkopfAuswerter.model.db.DataObject;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.SchafkopfTableModel;
 
 privileged aspect HtmlExport {
 

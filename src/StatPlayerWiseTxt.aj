@@ -3,11 +3,11 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 
-import view.GUI;
-import view.UIUpdater;
-import model.db.GameData;
-import model.SystemValues.Games;
-import model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.UIUpdater;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
 
 public privileged aspect StatPlayerWiseTxt {
     /**

@@ -1,8 +1,8 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import javax.swing.JTable;
 
-import model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
 
 public class UIUpdater implements Runnable {
 

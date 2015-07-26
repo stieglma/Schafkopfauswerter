@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import model.Schafkopfmodel;
-import model.db.GameData;
-import view.GUI;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 
 public privileged aspect RemoveLastGame {

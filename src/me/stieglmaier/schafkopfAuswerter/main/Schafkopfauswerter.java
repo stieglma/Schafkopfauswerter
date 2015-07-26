@@ -1,11 +1,11 @@
-package main;
+package me.stieglmaier.schafkopfAuswerter.main;
 
 import java.awt.EventQueue;
 
 import javax.swing.UIManager;
 
-import model.Schafkopfmodel;
-import view.GUI;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 public class Schafkopfauswerter {
 

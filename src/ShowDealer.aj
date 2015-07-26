@@ -3,9 +3,9 @@ import java.awt.Color;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
-import model.SystemValues.Players;
-import view.GUI;
-import view.SavingActionListener;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.SavingActionListener;
 
 
 privileged aspect ShowDealer {

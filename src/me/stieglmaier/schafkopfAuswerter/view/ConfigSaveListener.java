@@ -1,4 +1,4 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import model.SystemValues;
-import model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
 
 public class ConfigSaveListener implements ActionListener {
 

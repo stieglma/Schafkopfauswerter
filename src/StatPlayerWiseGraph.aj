@@ -7,10 +7,11 @@ import java.awt.LinearGradientPaint;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import model.SystemValues.Games;
-import model.SystemValues.Players;
-import view.GUI;
-import view.UIUpdater;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.UIUpdater;
+
 import de.erichseifert.gral.data.DataTable;
 import de.erichseifert.gral.plots.BarPlot;
 import de.erichseifert.gral.plots.BarPlot.BarRenderer;

@@ -1,11 +1,11 @@
-package model.db;
+package me.stieglmaier.schafkopfAuswerter.model.db;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import de.erichseifert.gral.data.DataTable;
-import model.SystemValues.Games;
-import model.SystemValues.WIN;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.WIN;
 
 
 public class GameData {

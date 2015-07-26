@@ -1,10 +1,10 @@
 import java.util.Iterator;
 
-import model.SystemValues.Games;
-import model.SystemValues.Players;
-import model.SystemValues.WIN;
-import model.db.DataObject;
-import model.db.GameData;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.WIN;
+import me.stieglmaier.schafkopfAuswerter.model.db.DataObject;
+import me.stieglmaier.schafkopfAuswerter.model.db.GameData;
 
 public privileged aspect PlayerWiseStats {
 

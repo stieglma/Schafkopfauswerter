@@ -2,7 +2,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 public privileged aspect Statistics {
 

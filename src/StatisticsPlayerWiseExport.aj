@@ -1,14 +1,14 @@
 import java.io.IOException;
 
-import model.SystemValues.Games;
-import model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import view.GUI;
 
 public privileged aspect StatisticsPlayerWiseExport {
 

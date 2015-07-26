@@ -1,4 +1,4 @@
-package model;
+package me.stieglmaier.schafkopfAuswerter.model;
 
 public final class SystemValues {
 

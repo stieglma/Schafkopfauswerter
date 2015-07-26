@@ -7,10 +7,10 @@ import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
 import de.erichseifert.gral.ui.InteractivePanel;
 import de.erichseifert.gral.util.Orientation;
 
-import static model.SystemValues.Players.*;
+import static me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players.*;
 
-import view.GUI;
-import view.UIUpdater;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.UIUpdater;
 
 public privileged aspect Graph {
 

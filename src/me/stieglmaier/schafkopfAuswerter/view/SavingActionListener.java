@@ -1,15 +1,15 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JOptionPane;
 
-import model.Schafkopfmodel;
-import model.SystemValues.Games;
-import model.SystemValues.Players;
-import model.SystemValues.Schneider;
-import model.SystemValues.Spritzen;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Schneider;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Spritzen;
 
 public class SavingActionListener implements ActionListener {
 

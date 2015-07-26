@@ -1,4 +1,4 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
-import model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
 
 public class GUI extends JFrame {
 

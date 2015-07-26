@@ -1,4 +1,4 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import java.awt.*;
 
@@ -11,8 +11,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 
-import model.Schafkopfmodel;
-import model.SystemValues;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;

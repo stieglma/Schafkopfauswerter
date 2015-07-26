@@ -6,16 +6,16 @@ import java.util.Arrays;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
-import model.Schafkopfmodel;
-import model.SystemValues.Games;
-import model.SystemValues.Players;
-import model.SystemValues.WIN;
-import static model.SystemValues.rufspiel;
-import model.db.DataObject;
-import view.ConfigPopup;
-import view.GUI;
-import view.SchafkopfTableModel;
-import view.ConfigSaveListener;
+import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Games;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues.WIN;
+import static me.stieglmaier.schafkopfAuswerter.model.SystemValues.rufspiel;
+import me.stieglmaier.schafkopfAuswerter.model.db.DataObject;
+import me.stieglmaier.schafkopfAuswerter.view.ConfigPopup;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.SchafkopfTableModel;
+import me.stieglmaier.schafkopfAuswerter.view.ConfigSaveListener;
 
 public privileged aspect Stock {
 

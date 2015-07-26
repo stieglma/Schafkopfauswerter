@@ -17,8 +17,9 @@ import de.erichseifert.gral.plots.points.PointRenderer;
 import de.erichseifert.gral.util.GraphicsUtils;
 import de.erichseifert.gral.util.Insets2D;
 import de.erichseifert.gral.util.Location;
-import view.GUI;
-import view.UIUpdater;
+
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.UIUpdater;
 
 public privileged aspect StatOverallGraph {
     /** Statistics has to be the last feature executed, such that the subfeatures have the correct gui

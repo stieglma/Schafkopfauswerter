@@ -5,7 +5,7 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.edit.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 
-import view.GUI;
+import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 public privileged aspect StatisticsGlobalExport {
 

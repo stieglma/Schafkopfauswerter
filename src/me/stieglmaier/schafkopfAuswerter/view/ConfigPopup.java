@@ -1,21 +1,25 @@
-package view;
+package me.stieglmaier.schafkopfAuswerter.view;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
 import java.awt.FlowLayout;
+
 import javax.swing.JLabel;
 
 import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
-import model.SystemValues;
-import static model.SystemValues.Players;
+import me.stieglmaier.schafkopfAuswerter.model.SystemValues;
+import static me.stieglmaier.schafkopfAuswerter.model.SystemValues.Players;
 
 public class ConfigPopup extends JPanel {
 
