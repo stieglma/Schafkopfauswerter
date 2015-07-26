@@ -7,6 +7,10 @@ This application uses the [pdfBox](https://pdfbox.apache.org/) library for gener
 for creating the plots.
 
 * * *
+### The Easy Way
+If you just want to use the Schafkopfauswerter you can simply download the file `Schafkopfauswerter.jar` from the base
+directory. It is a precompiled versions with all features turned on. For those who want to make some changes please read
+the next paragraph.
 
 #### Installation
 After checking out the project you're almost done, just call `gradle build` to download all needed dependencies
