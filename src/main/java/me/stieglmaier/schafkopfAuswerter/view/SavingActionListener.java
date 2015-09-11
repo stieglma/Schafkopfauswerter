@@ -36,15 +36,14 @@ public class SavingActionListener implements ActionListener {
             int p1Idx = parentPopup.vonComboBox.getSelectedIndex();
             int p2Idx = parentPopup.mitComboBox.getSelectedIndex();
 
-            Players p1 = Players.values()[p1Idx];
-            Players p2 = Players.PLAYER_1;
-
             // combobox removes irrelevant matchings, so we have to take
             // care of correct index here
             if (p2Idx >= p1Idx && p2Idx >= 0) {
                 p2Idx++;
-                p2 = Players.values()[p2Idx];
             }
+
+            Players p1 = Players.values()[p1Idx];
+            Players p2 = Players.values()[p2Idx];
 
             Schneider schneider = Schneider.values()[parentPopup.schneiderComboBox.getSelectedIndex()];
             Spritzen spritze = Spritzen.values()[parentPopup.spritzeComboBox.getSelectedIndex()];
