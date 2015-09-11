@@ -105,8 +105,6 @@ public class GUI extends JFrame {
         tabbedPane.addTab("Einstellungen", null, new ConfigPopup(this), null);
         tabbedPane.addTab("Tabelle", null, scrollPane, null);
 
-        tabbedPane.setEnabledAt(1, false);
-
         return tabbedPane;
     }
 }

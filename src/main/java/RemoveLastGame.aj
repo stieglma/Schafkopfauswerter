@@ -1,3 +1,4 @@
+import java.awt.Button;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +13,7 @@ import me.stieglmaier.schafkopfAuswerter.view.GUI;
 public privileged aspect RemoveLastGame {
 
     private GUI gui;
+    private JButton buttonRemoveLastGame;
 
     /**
      * catch constructor call, so that we have the correct gui, to refer to everywhere
@@ -36,11 +38,16 @@ public privileged aspect RemoveLastGame {
         return false;
     }
 
+    after() : execution(* GameData.addData(*)) {
+        this.buttonRemoveLastGame.setEnabled(true);
+    }
+
     /** add remove last game button */
     after() returning(JPanel panel): call(JPanel GUI.createButtonPane()) {
-        JButton buttonRemoveLastGame = new JButton("letztes Spiel löschen");
-        buttonRemoveLastGame.addActionListener(new RemoveLastGameListener());
+        this.buttonRemoveLastGame = new JButton("letztes Spiel löschen");
+        this.buttonRemoveLastGame.addActionListener(new RemoveLastGameListener());
         panel.add(buttonRemoveLastGame);
+        this.buttonRemoveLastGame.setEnabled(false);
     }
 
     /** catch execution of removelastgamelistener and remove the game + update ui */
@@ -50,8 +57,9 @@ public privileged aspect RemoveLastGame {
             gui.table.updateUI();
             gui.updateValues();
         }
+
         if(gui.model.getGameData().size() <= 1) {
-            gui.tabbedPane.setEnabledAt(1, false);
+            this.buttonRemoveLastGame.setEnabled(false);
         }
     }
 
