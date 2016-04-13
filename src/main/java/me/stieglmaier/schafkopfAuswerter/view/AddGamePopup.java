@@ -21,24 +21,30 @@ import javax.swing.JButton;
 
 public class AddGamePopup extends JFrame {
 
-private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
   private JPanel mainPanel;
   private JPanel gamePanel;
   private JPanel chooser;
   private JLabel lblGame;
-  JComboBox<String> spielComboBox = new JComboBox<String>(new String[]{"weiter",
-      "Rufspiel", "Solo", "Solo Tout", "Solo Sie"});
+  JComboBox<String> spielComboBox =
+      new JComboBox<String>(new String[] {"weiter", "Rufspiel", "Solo", "Solo Tout", "Solo Sie"});
   private JLabel lblVon;
-  JComboBox<String> vonComboBox = new JComboBox<String>(new String[]{
-      SystemValues.Players.PLAYER_1.toString(),
-      SystemValues.Players.PLAYER_2.toString(),
-      SystemValues.Players.PLAYER_3.toString(),
-      SystemValues.Players.PLAYER_4.toString()});
+  JComboBox<String> vonComboBox =
+      new JComboBox<String>(
+          new String[] {
+            SystemValues.Players.PLAYER_1.toString(),
+            SystemValues.Players.PLAYER_2.toString(),
+            SystemValues.Players.PLAYER_3.toString(),
+            SystemValues.Players.PLAYER_4.toString()
+          });
   private JLabel lblMit;
-  JComboBox<String> mitComboBox = new JComboBox<String>(new String[]{
-      SystemValues.Players.PLAYER_2.toString(),
-      SystemValues.Players.PLAYER_3.toString(),
-      SystemValues.Players.PLAYER_4.toString()});
+  JComboBox<String> mitComboBox =
+      new JComboBox<String>(
+          new String[] {
+            SystemValues.Players.PLAYER_2.toString(),
+            SystemValues.Players.PLAYER_3.toString(),
+            SystemValues.Players.PLAYER_4.toString()
+          });
   private JPanel separatorPanel;
   private JSeparator separatorTop;
   private JPanel valuesPanel;
@@ -67,13 +73,13 @@ private static final long serialVersionUID = 1L;
    * Create the frame.
    */
   public AddGamePopup(final GUI parent, final Schafkopfmodel model) {
-      this.parent = parent;
-      this.model = model;
-      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-      createFrameContent();
-      createAllActionListeners();
-      disableForWeiter();
-      setContentPane(mainPanel);
+    this.parent = parent;
+    this.model = model;
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    createFrameContent();
+    createAllActionListeners();
+    disableForWeiter();
+    setContentPane(mainPanel);
   }
 
   private void disableForWeiter() {
@@ -144,25 +150,31 @@ private static final long serialVersionUID = 1L;
     lblGame = new JLabel();
     lblGame.setText("Spiel:");
     chooser.add(lblGame);
-    spielComboBox = new JComboBox<String>(new String[] { "weiter",
-        "Rufspiel", "Solo", "Solo Tout", "Solo Sie" });
+    spielComboBox =
+        new JComboBox<String>(new String[] {"weiter", "Rufspiel", "Solo", "Solo Tout", "Solo Sie"});
     chooser.add(spielComboBox);
     lblVon = new JLabel();
     lblVon.setText("von:");
     chooser.add(lblVon);
-    vonComboBox = new JComboBox<String>(new String[] {
-        SystemValues.Players.PLAYER_1.toString(),
-        SystemValues.Players.PLAYER_2.toString(),
-        SystemValues.Players.PLAYER_3.toString(),
-        SystemValues.Players.PLAYER_4.toString() });
+    vonComboBox =
+        new JComboBox<String>(
+            new String[] {
+              SystemValues.Players.PLAYER_1.toString(),
+              SystemValues.Players.PLAYER_2.toString(),
+              SystemValues.Players.PLAYER_3.toString(),
+              SystemValues.Players.PLAYER_4.toString()
+            });
     chooser.add(vonComboBox);
     lblMit = new JLabel();
     lblMit.setText("mit:");
     chooser.add(lblMit);
-    mitComboBox = new JComboBox<String>(new String[] {
-        SystemValues.Players.PLAYER_2.toString(),
-        SystemValues.Players.PLAYER_3.toString(),
-        SystemValues.Players.PLAYER_4.toString() });
+    mitComboBox =
+        new JComboBox<String>(
+            new String[] {
+              SystemValues.Players.PLAYER_2.toString(),
+              SystemValues.Players.PLAYER_3.toString(),
+              SystemValues.Players.PLAYER_4.toString()
+            });
     chooser.add(mitComboBox);
     separatorPanel = new JPanel();
     separatorPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -178,8 +190,7 @@ private static final long serialVersionUID = 1L;
     lblSchneider = new JLabel();
     lblSchneider.setText("Schneider:");
     schneiderPanel.add(lblSchneider, BorderLayout.NORTH);
-    schneiderComboBox = new JComboBox<String>(new String[] {
-        "normal", "schneider", "schwarz"});
+    schneiderComboBox = new JComboBox<String>(new String[] {"normal", "schneider", "schwarz"});
     schneiderPanel.add(schneiderComboBox, BorderLayout.CENTER);
     spritzePanel = new JPanel();
     spritzePanel.setLayout(new BorderLayout(0, 0));
@@ -187,8 +198,8 @@ private static final long serialVersionUID = 1L;
     lblSpritze = new JLabel();
     lblSpritze.setText("Spritze:");
     spritzePanel.add(lblSpritze, BorderLayout.NORTH);
-    spritzeComboBox = new JComboBox<String>(new String[] {
-        "normal", "contra", "re", "sup", "hirsch"});
+    spritzeComboBox =
+        new JComboBox<String>(new String[] {"normal", "contra", "re", "sup", "hirsch"});
     spritzePanel.add(spritzeComboBox, BorderLayout.CENTER);
     gedoppeltPanel = new JPanel();
     gedoppeltPanel.setLayout(new BorderLayout(0, 0));
@@ -196,8 +207,7 @@ private static final long serialVersionUID = 1L;
     lblGedoppelt = new JLabel();
     lblGedoppelt.setText("Gedoppelt:");
     gedoppeltPanel.add(lblGedoppelt, BorderLayout.NORTH);
-    gedoppeltComboBox = new JComboBox<String>(new String[] {
-        "0", "1", "2", "3", "4"});
+    gedoppeltComboBox = new JComboBox<String>(new String[] {"0", "1", "2", "3", "4"});
     gedoppeltPanel.add(gedoppeltComboBox, BorderLayout.CENTER);
     laufendePanel = new JPanel();
     laufendePanel.setLayout(new BorderLayout(0, 0));
@@ -205,8 +215,11 @@ private static final long serialVersionUID = 1L;
     lblLaufende = new JLabel();
     lblLaufende.setText("Laufende:");
     laufendePanel.add(lblLaufende, BorderLayout.NORTH);
-    laufendeComboBox = new JComboBox<String>(new String[] {
-        "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"});
+    laufendeComboBox =
+        new JComboBox<String>(
+            new String[] {
+              "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14"
+            });
     laufendePanel.add(laufendeComboBox, BorderLayout.CENTER);
     bottomPanel = new JPanel();
     bottomPanel.setLayout(new BorderLayout(0, 0));
@@ -241,51 +254,53 @@ private static final long serialVersionUID = 1L;
   }
 
   private void createAllActionListeners() {
-    spielComboBox.addActionListener(new ActionListener() {
+    spielComboBox.addActionListener(
+        new ActionListener() {
 
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        enableEverything();
-        if (spielComboBox.getSelectedIndex() == 0) {
-          disableForWeiter();
-        } else if (spielComboBox.getSelectedIndex() == 2) {
-          disableForSolo();
-        } else if (spielComboBox.getSelectedIndex() == 3) {
-          disableForSoloTout();
-        } else if (spielComboBox.getSelectedIndex() == 4) {
-          disableForSoloSie();
-        }
-      }
-    });
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            enableEverything();
+            if (spielComboBox.getSelectedIndex() == 0) {
+              disableForWeiter();
+            } else if (spielComboBox.getSelectedIndex() == 2) {
+              disableForSolo();
+            } else if (spielComboBox.getSelectedIndex() == 3) {
+              disableForSoloTout();
+            } else if (spielComboBox.getSelectedIndex() == 4) {
+              disableForSoloSie();
+            }
+          }
+        });
 
-    vonComboBox.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        mitComboBox.removeAllItems();
-        switch (vonComboBox.getSelectedIndex()) {
-          case 0:
-            mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
-            break;
-          case 1:
-            mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
-            break;
-          case 2:
-            mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
-            break;
-          case 3:
-            mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
-            mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
-            break;
-        }
-      }
-    });
+    vonComboBox.addActionListener(
+        new ActionListener() {
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            mitComboBox.removeAllItems();
+            switch (vonComboBox.getSelectedIndex()) {
+              case 0:
+                mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
+                break;
+              case 1:
+                mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
+                break;
+              case 2:
+                mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_4.toString());
+                break;
+              case 3:
+                mitComboBox.addItem(SystemValues.Players.PLAYER_1.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_2.toString());
+                mitComboBox.addItem(SystemValues.Players.PLAYER_3.toString());
+                break;
+            }
+          }
+        });
 
     saveGameButton.addActionListener(new SavingActionListener(parent, this, model));
   }

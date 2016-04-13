@@ -9,31 +9,31 @@ import me.stieglmaier.schafkopfAuswerter.view.GUI;
 
 public class Schafkopfauswerter {
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                  try {
-                    for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                      if ("Nimbus".equals(info.getName())) {
-                        UIManager.setLookAndFeel(info.getClassName());
-                        break;
-                      }
-                    }
-                  } catch (Exception e) {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+  /**
+   * @param args
+   */
+  public static void main(String[] args) {
+    EventQueue.invokeLater(
+        new Runnable() {
+          public void run() {
+            try {
+              try {
+                for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                  if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
                   }
-
-                    GUI frame = new GUI(new Schafkopfmodel());
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-            }
-        });
-    }
+              } catch (Exception e) {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+              }
 
+              GUI frame = new GUI(new Schafkopfmodel());
+              frame.setVisible(true);
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        });
+  }
 }

@@ -22,89 +22,91 @@ import me.stieglmaier.schafkopfAuswerter.model.Schafkopfmodel;
 
 public class GUI extends JFrame {
 
-    private static final long serialVersionUID = 1L;
-    private JTable table;
-    private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-    private Schafkopfmodel model;
-    /**
-     * Create the frame.
-     * 
-     * @throws SQLException
-     * @throws ClassNotFoundException
-     */
-    public GUI(Schafkopfmodel m) {
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 600, 400);
+  private static final long serialVersionUID = 1L;
+  private JTable table;
+  private JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+  private Schafkopfmodel model;
+  /**
+   * Create the frame.
+   *
+   * @throws SQLException
+   * @throws ClassNotFoundException
+   */
+  public GUI(Schafkopfmodel m) {
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setBounds(100, 100, 600, 400);
 
-        model = m;
+    model = m;
 
-        add(createMenu(), BorderLayout.NORTH);
-        add(createTabbedPane(), BorderLayout.CENTER);
-        add(createButtonPane(), BorderLayout.SOUTH);
-    }
+    add(createMenu(), BorderLayout.NORTH);
+    add(createTabbedPane(), BorderLayout.CENTER);
+    add(createButtonPane(), BorderLayout.SOUTH);
+  }
 
-    public void updateValues() {
-        EventQueue.invokeLater(new UIUpdater(table));
+  public void updateValues() {
+    EventQueue.invokeLater(new UIUpdater(table));
+  }
 
-    }
+  private JMenuBar createMenu() {
+    JMenuBar menuBar = new JMenuBar();
 
-    private JMenuBar createMenu() {
-        JMenuBar menuBar = new JMenuBar();
+    JMenu menuFile = new JMenu("Datei");
+    JMenuItem endProgram = new JMenuItem("Beenden");
+    endProgram.addActionListener(
+        new ActionListener() {
 
-        JMenu menuFile = new JMenu("Datei");
-        JMenuItem endProgram = new JMenuItem("Beenden");
-        endProgram.addActionListener(new ActionListener() {
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                for (Frame frame : JFrame.getFrames()) {
-                    frame.dispose();
-                }
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            for (Frame frame : JFrame.getFrames()) {
+              frame.dispose();
             }
+          }
         });
-        menuFile.add(endProgram);
-        menuBar.add(menuFile);
+    menuFile.add(endProgram);
+    menuBar.add(menuFile);
 
-        return menuBar;
-    }
+    return menuBar;
+  }
 
-    private JPanel createButtonPane() {
-        JPanel buttonPane = new JPanel();
+  private JPanel createButtonPane() {
+    JPanel buttonPane = new JPanel();
 
-        buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+    buttonPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 
-        JButton buttonAddGame = new JButton("Spiel hinzufügen");
-        buttonAddGame.addActionListener(new ActionListener() {
+    JButton buttonAddGame = new JButton("Spiel hinzufügen");
+    buttonAddGame.addActionListener(
+        new ActionListener() {
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tabbedPane.setSelectedIndex(1);
-                JFrame addGame = new AddGamePopup(GUI.this, model);
-                addGame.pack();
-                addGame.setLocation(getLocation());
-                addGame.setVisible(true);
-                updateValues();
-                tabbedPane.setEnabledAt(1, true);
-            }
+          @Override
+          public void actionPerformed(ActionEvent e) {
+            tabbedPane.setSelectedIndex(1);
+            JFrame addGame = new AddGamePopup(GUI.this, model);
+            addGame.pack();
+            addGame.setLocation(getLocation());
+            addGame.setVisible(true);
+            updateValues();
+            tabbedPane.setEnabledAt(1, true);
+          }
         });
-        buttonPane.add(buttonAddGame);
+    buttonPane.add(buttonAddGame);
 
-        return buttonPane;
-    }
+    return buttonPane;
+  }
 
-    private JTabbedPane createTabbedPane() {
+  private JTabbedPane createTabbedPane() {
 
-        table = new JTable(new SchafkopfTableModel(model.getGameData()));
-        table.setDragEnabled(false);
-        ((JLabel) table.getDefaultRenderer(Object.class))
-                .setHorizontalAlignment(SwingConstants.CENTER);
-        JScrollPane scrollPane = new JScrollPane(table,
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+    table = new JTable(new SchafkopfTableModel(model.getGameData()));
+    table.setDragEnabled(false);
+    ((JLabel) table.getDefaultRenderer(Object.class)).setHorizontalAlignment(SwingConstants.CENTER);
+    JScrollPane scrollPane =
+        new JScrollPane(
+            table,
+            ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-        tabbedPane.addTab("Einstellungen", null, new ConfigPopup(this), null);
-        tabbedPane.addTab("Tabelle", null, scrollPane, null);
+    tabbedPane.addTab("Einstellungen", null, new ConfigPopup(this), null);
+    tabbedPane.addTab("Tabelle", null, scrollPane, null);
 
-        return tabbedPane;
-    }
+    return tabbedPane;
+  }
 }

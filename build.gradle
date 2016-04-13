@@ -2,6 +2,7 @@ apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'com.github.sherter.google-java-format'
 
 mainClassName = 'me.stieglmaier.schafkopfAuswerter.main.Schafkopfauswerter'
 
@@ -17,10 +18,14 @@ buildscript {
         maven {
             url "https://maven.eveoh.nl/content/repositories/releases"
         }
+        maven {
+            url "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
     }
 
     dependencies {
-        classpath "nl.eveoh:gradle-aspectj:1.5"
+        classpath group: "nl.eveoh", name: "gradle-aspectj", version: "1.5"
+        classpath group: "com.github.sherter.googlejavaformatgradleplugin", name: "google-java-format-gradle-plugin", version: "0.3-SNAPSHOT"
     }
 }
 
